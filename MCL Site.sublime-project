@@ -1,0 +1,18 @@
+{
+   "folders" : [
+      {
+         "path" : ".",
+         "folder_exclude_patterns" : [
+            "bin",
+            "develop-eggs",
+            "parts",
+            "var"
+         ],
+         "file_exclude_patterns" : [
+            ".*.cfg",
+            "bootstrap.py",
+            "*.sublime-*"
+         ]
+      }
+   ]
+}

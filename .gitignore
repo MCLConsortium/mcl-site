@@ -1,0 +1,12 @@
+.DS_Store
+._*
+.*.cfg
+bin
+eggs
+develop-eggs
+var
+src
+*.sublime-workspace
+dist
+build
+parts

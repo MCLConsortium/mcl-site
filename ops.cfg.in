@@ -1,0 +1,72 @@
+# MCL Site - Operational Buildout
+# ===============================
+#
+# Use this buildout when in going into operations.
+#
+# Override the below settings before deploying.  These usernames+passwords
+# end up in cm, so we absolutely need these to be changed and protected.
+
+
+# Zope Instance Settings
+# ----------------------
+#
+# Fill in better username+password.
+[zope]
+username = zope-admin
+password = secret
+
+
+# Supervisor Settings
+# -------------------
+#
+# Fill in better username+password.
+[supervisor]
+username = supervisor-admin
+password = secret
+
+
+# Users
+# -----
+#
+# cancer.jpl.nasa.gov has an "mcl" account for sandboxing
+[users]
+varnish = mcl
+zeo     = mcl
+zope    = mcl
+
+
+# Zope Debugging Instance
+# -----------------------
+#
+# In operations, the debug instance also uses zeo.
+[zope-debug]
+zeo-client = true
+
+
+# Buildout
+# --------
+#
+# Nothing below here should need chaning.
+[buildout]
+eggs-directory       = /usr/local/mcl/buildout/eggs
+download-cache       = /usr/local/mcl/buildout/downloads
+extends-cache        = /usr/local/mcl/buildout/extends
+update-versions-file = var/versions.cfg
+extends =
+    etc/base.cfg
+    etc/versions/known-good-versions.cfg
+parts =
+    certs
+    varnish
+    lxml
+    zeo
+    zope
+    zope-debug
+    supervisor
+    backup
+    logrotate
+    init
+    apache-httpd
+    apache-httpd-ssl
+    python
+    ${buildout:crontab-parts}
