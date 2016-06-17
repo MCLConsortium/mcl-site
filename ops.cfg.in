@@ -30,7 +30,6 @@ password = secret
 #
 # cancer.jpl.nasa.gov has an "mcl" account for sandboxing
 [users]
-varnish = mcl
 zeo     = mcl
 zope    = mcl
 
@@ -46,18 +45,18 @@ zeo-client = true
 # Buildout
 # --------
 #
-# Nothing below here should need chaning.
+# For JPL, fill in /usr/local/mcl/buildout/{eggs,downloads,extends} below.
+# For NCI, the deploy.py script takes care of this.
 [buildout]
-eggs-directory       = /usr/local/mcl/buildout/eggs
-download-cache       = /usr/local/mcl/buildout/downloads
-extends-cache        = /usr/local/mcl/buildout/extends
+# eggs-directory       = 
+# download-cache       = 
+# extends-cache        = 
 update-versions-file = var/versions.cfg
 extends =
     etc/base.cfg
     etc/versions/known-good-versions.cfg
 parts =
     certs
-    varnish
     lxml
     zeo
     zope
