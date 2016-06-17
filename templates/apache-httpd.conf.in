@@ -5,21 +5,10 @@
 #
 <VirtualHost ${:local-ip}:80>
     ServerName ${:public-hostname}
-    ServerAdmin sean.kelly@jpl.nasa.gov
+    ServerAdmin nciweb@mail.nih.gov
     RewriteEngine On
     ProxyRequests Off
 
-    # Keep logs in our installation directory, under var/log.
-    CustomLog ${buildout:directory}/var/log/access.log combined env=!dontlog
-    ErrorLog ${buildout:directory}/var/log/error.log
-
-    # Send login attempts to https.
-    RewriteRule ^(.*)(/login_?|/require_login|/failsafe_login_form)(.*) https://${:public-hostname}${:dollar}1${:dollar}2${:dollar}3 [L,R]
-
-    # If a user manually substituted http while logged in, immediately send back to https.
-    RewriteCond expr "%{HTTP_COOKIE} =~ /__ac=(?:[^;]+)(?:;|${:dollar})/"
+    # Send everything over to https
     RewriteRule ^(.*) https://${:public-hostname}${:dollar}1 [L,NE,R=301]
-
-    # Onto the cache, and thence onto the Zope app server, to the Plone site "mcl".
-    ProxyPass / http://${hosts:varnish}:${ports:varnish}/VirtualHostBase/http/${:public-hostname}:80/mcl/VirtualHostRoot/
 </VirtualHost>
