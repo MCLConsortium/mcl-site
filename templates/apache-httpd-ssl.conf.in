@@ -9,24 +9,12 @@
     RewriteEngine On
     SSLEngine On
 
-    # Certificates in $INSTALL_DIR/etc.
-    SSLCertificateFile ${buildout:directory}/etc/certs/mcl.jpl.nasa.gov.pem
-    SSLCertificateKeyFile ${buildout:directory}/etc/certs/mcl.jpl.nasa.gov.key.unencrypted
-
-    # Log into $INSTALL_DIR/var/log.
-    CustomLog ${buildout:directory}/var/log/access-ssl.log combined env=!dontlog
-    ErrorLog ${buildout:directory}/var/log/error-ssl.log
-
-    # On logout, go back to plain http, but only if our cookie's been cleared.
-    RewriteCond expr "! %{HTTP_COOKIE} =~ /__ac=(?:[^;]+)(?:;|${:dollar})/"
-    RewriteRule ^(.*)(/logged_out)(.*) http://${:public-hostname}${:dollar}1${:dollar}2${:dollar}3 [L,R]
-
-    # On login, fix the url in the came_from parameter; it needs to be https.
-    RewriteCond expr "%{QUERY_STRING} =~ /^came_from=http:(.+)/"
-    RewriteRule ^(.*)(/login_?|require_login|/failsafe_login_form)(.*) ${:dollar}1${:dollar}2${:dollar}3?came_from=https:%1 [NE]
+    # SSL
+    SSLCertificateFile ${ssl:certificate-file}
+    SSLCertificateKeyFile ${ssl:key-file}
 
     # Onto Zope directly (bypassing Varnish cache), and within there, Plone object "mcl";
-    ProxyPass / http://${hosts:zope}:${ports:zope}/VirtualHostBase/https/${:public-hostname}:443/mcl/VirtualHostRoot/
+    RewriteRule ^/(.*) http://${hosts:zope}:${ports:zope}/VirtualHostBase/https/${:public-hostname}:443/mcl/VirtualHostRoot/${:dollar}1
 
     # Add secure & http-only flags to all cookies
     Header edit Set-Cookie (.*) "$1; HTTPOnly; Secure"
