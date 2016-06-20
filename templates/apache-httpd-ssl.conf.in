@@ -14,7 +14,7 @@
     SSLCertificateKeyFile ${ssl:key-file}
 
     # Onto Zope directly (bypassing Varnish cache), and within there, Plone object "mcl";
-    RewriteRule ^/(.*) http://${hosts:zope}:${ports:zope}/VirtualHostBase/https/${:public-hostname}:443/mcl/VirtualHostRoot/${:dollar}1
+    RewriteRule ^/(.*) http://${hosts:zope}:${ports:zope}/VirtualHostBase/https/${:public-hostname}:443/mcl/VirtualHostRoot/${:dollar}1 [L,P]
 
     # Add secure & http-only flags to all cookies
     Header edit Set-Cookie (.*) "$1; HTTPOnly; Secure"
