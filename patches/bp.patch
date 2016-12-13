@@ -5,7 +5,7 @@
  fi
  
 -./configure $EXFLAGS --prefix="$PY_HOME" >> "$INSTALL_LOG" 2>&1
-+./configure $EXFLAGS --prefix="$PY_HOME" "LDFLAGS=-L/usr/local/openssl1.0.1/lib -L/usr/local/openldap2.4/lib -Xlinker -rpath=/usr/local/openssl1.0.1/lib -Xlinker -rpath=/usr/local/openldap2.4/lib" "CPPFLAGS=-I/usr/local/openssl1.0.1/include -I/usr/local/openldap2.4/include" >> "$INSTALL_LOG" 2>&1
++./configure $EXFLAGS --prefix="$PY_HOME" "LDFLAGS=-L/usr/local/openssl/lib -L/usr/local/openldap2.4/lib -Xlinker -rpath=/usr/local/openssl/lib -Xlinker -rpath=/usr/local/openldap2.4/lib" "CPPFLAGS=-I/usr/local/openssl/include -I/usr/local/openldap2.4/include" >> "$INSTALL_LOG" 2>&1
  if [ $? -gt 0 ]; then
      eval "echo \"$INSTALLING_PYTHON\""
      seelog
@@ -16,7 +16,7 @@
          rm -f ./buildenv.sh
      fi
 -    sh ./preflight -q
-+    sh ./preflight -q "LDFLAGS=-L/usr/local/openssl1.0.1/lib -L/usr/local/openldap2.4/lib -Xlinker -rpath=/usr/local/openssl1.0.1/lib -Xlinker -rpath=/usr/local/openldap2.4/lib" "CPPFLAGS=-I/usr/local/openssl1.0.1/include -I/usr/local/openldap2.4/include"
++    sh ./preflight -q "LDFLAGS=-L/usr/local/openssl/lib -L/usr/local/openldap2.4/lib -Xlinker -rpath=/usr/local/openssl/lib -Xlinker -rpath=/usr/local/openldap2.4/lib" "CPPFLAGS=-I/usr/local/openssl/include -I/usr/local/openldap2.4/include"
      if [ $? -gt 0 ] || [ ! -f "buildenv.sh" ]; then
          echo "$PREFLIGHT_FAILED_MSG"
          exit 1

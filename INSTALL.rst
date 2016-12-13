@@ -33,7 +33,7 @@ The following requirements must be met before running the deployment script:
 
 • `Apache HTTPD`_ 2.4; you can use another front end web server, but we
   generate configurations automatically for Apache HTTPD
-• OpenSSL_ 1.0.1 or similar with development headers
+• OpenSSL_ 1.0.2 or similar with development headers
 • LibJPEG_ 6.2 or similar with development headers
 • Certificate and key files for the HTTPS domain name used to access the site
 • Regular Unix build environment with C compiler, ``make``, etc.

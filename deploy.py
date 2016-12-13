@@ -54,7 +54,7 @@ def _checkHeader(directories, header):
     '''
     logging.info(u'Checking for header file %s', header)
     locations = [
-        u'/usr/local/openssl1.0.1/include',
+        u'/usr/local/openssl/include',
         u'/usr/local/openldap2.4/include',
         u'/usr/local/include',
         u'/usr/include',
@@ -93,9 +93,8 @@ def _makeOptParser(context):
         usage=u'Usage: %prog [options] PUBLIC-HOSTNAME'
     )
     parser.add_option(
-        '-o', '--operations',
-        action='store_true',
-        help=u'Specify this option when going into production'
+        u'-e', u'--existing-install', metavar=u'DIR',
+        help=u'Migrate the content from the previous MCL site installed in DIR'
     )
     ssl = optparse.OptionGroup(
         parser,
@@ -353,6 +352,26 @@ def _populate(context, data):
         _exec(zeo, (zeo, 'stop'), context)
 
 
+def _migrate(old, context, username, password):
+    logging.info(u'Migrating content from %s', old)
+    zeo, zope = os.path.join(context, u'bin', u'zeo'), os.path.join(context, u'bin', u'zope-debug')
+    try:
+        logging.debug(u'Stopping any existing zeo using %s', zeo)
+        _exec(zeo, (zeo 'stop'), context)
+    except:
+        pass
+    logging.debug(u'Starting zeo using %s', zeo)
+    _exec(zeo, (zeo, 'start'), context)
+    upper = os.path.join(context, u'support', u'upgrade.py')
+    args = (zope, 'run', upper, username, password)
+    try:
+        logging.debug(u'Running zope at %s with upgrade script %s', zope, upper)
+        _exec(zope, args, context)
+    finally:
+        logging.debug(u'Stopping zeo at %s', zeo)
+        _exec(zeo, (zeo, 'stop'), context)
+
+
 def main(argv):
     if argv is None:
         argv = sys.argv
@@ -389,8 +408,8 @@ def main(argv):
         )
         _bootstrap(context)
         _buildout(context)
-        if options.operations:
-            _populate(context, 'mcl.zexp')
+        if options.existing_install:
+            _migrate(options.existing_install, context, options.zope_user, zopePassword)
         else:
             _populate(context, 'mcl-lite.zexp')
         logging.info(u'COMPLETE!')
