@@ -10,7 +10,7 @@ import random, string
 
 _requiredHeaders = ['openssl/ssl.h', 'jpeglib.h']
 _basePort = 6710
-_cms = u'https://launchpad.net/plone/5.0/5.0.4/+download/Plone-5.0.4-UnifiedInstaller-r1.tgz'
+_cms = u'https://launchpad.net/plone/5.0/5.0.6/+download/Plone-5.0.6-UnifiedInstaller-r1.tgz'
 _bufsize = 512
 
 
@@ -196,7 +196,7 @@ def _installCMS(context):
                 o.write(buf)
     tar = tarfile.open(tar)
     tar.extractall(workspace)
-    cmsDir = os.path.join(workspace, 'Plone-5.0.4-UnifiedInstaller-r1')
+    cmsDir = os.path.join(workspace, 'Plone-5.0.6-UnifiedInstaller-r1')
     bpPatch = os.path.join(context, 'patches', 'bp.patch')
     _exec('/usr/bin/patch', ('patch', '-p0', '-i', bpPatch), cmsDir)
     installer = os.path.join(cmsDir, 'install.sh')
@@ -354,10 +354,14 @@ def _populate(context, data):
 
 def _migrate(old, context, username, password):
     logging.info(u'Migrating content from %s', old)
+    database = os.path.join(old, u'var', u'filestorage', u'Data.fs')
+    shutil.copy(database, os.path.join(context, u'var', u'filestorage'))
+    shutil.rmtree(os.path.join(context, u'var', u'blobstorage'), ignore_errors=True)
+    shutil.copytree(os.path.join(old, u'var', u'blobstorage'), os.path.join(context, u'var', u'blobstorage'))
     zeo, zope = os.path.join(context, u'bin', u'zeo'), os.path.join(context, u'bin', u'zope-debug')
     try:
         logging.debug(u'Stopping any existing zeo using %s', zeo)
-        _exec(zeo, (zeo 'stop'), context)
+        _exec(zeo, (zeo, 'stop'), context)
     except:
         pass
     logging.debug(u'Starting zeo using %s', zeo)
@@ -373,6 +377,7 @@ def _migrate(old, context, username, password):
 
 
 def main(argv):
+    os.environ['PYTHONHTTPSVERIFY'] = '0'
     if argv is None:
         argv = sys.argv
     try:

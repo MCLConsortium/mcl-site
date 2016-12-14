@@ -14,11 +14,6 @@ _argParser.add_argument(
     help=u'Specifies the version of the MCL site to release'
 )
 _argParser.add_argument(
-    'full',
-    metavar='FULL-ZEXPFILE',
-    help=u'Location of the complete MCL ZEXP export data'
-)
-_argParser.add_argument(
     'minimal',
     metavar='MIN-ZEXPFILE',
     help=u'Location of the stipped-down MCL ZEXP export data suitable for appscanning'
@@ -28,6 +23,7 @@ _distItems = (
     'bootstrap.py',
     'deploy.py',
     'etc',
+    'ez_setup.py',
     'INSTALL.rst',
     'ops.cfg.in',
     'patches',
@@ -56,7 +52,7 @@ def _cleanOldDist(filename):
                 shutil.rmtree(f)
 
 
-def _mkDist(full, minimal):
+def _mkDist(minimal):
     logging.info(u'Creating new distribution layout')
     tmpdir = tempfile.mkdtemp()
     atexit.register(shutil.rmtree, tmpdir, True)
@@ -70,8 +66,6 @@ def _mkDist(full, minimal):
                 ignore=shutil.ignore_patterns('[0-9A-Fa-f]*.0', 'mkdist.py', '.git', 'deploy.py'))
     dataDir = os.path.join(tmpdir, u'data')
     os.makedirs(dataDir)
-    logging.info(u'Copying full zexp "%s"', full)
-    shutil.copy(full, dataDir)
     logging.info(u'Copying minimal zexp "%s"', minimal)
     shutil.copy(minimal, dataDir)
     return tmpdir
@@ -104,7 +98,7 @@ def main():
         _checkCWD()
         distname = u'mcl-site-{}'.format(args.version)
         _cleanOldDist(distname)
-        stagingArea = _mkDist(args.full, args.minimal)
+        stagingArea = _mkDist(args.minimal)
         _patchDeployer(stagingArea, args.version)
         _mkArchive(stagingArea, distname)
     except Exception as ex:

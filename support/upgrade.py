@@ -8,7 +8,7 @@ from AccessControl.SecurityManager import setSecurityPolicy
 from Products.CMFCore.tests.base.security import PermissiveSecurityPolicy, OmnipotentUser
 from Products.CMFCore.utils import getToolByName
 from Testing import makerequest
-from zope.app.component.hooks import setSite
+from zope.component.hooks import setSite
 import sys, argparse, logging, transaction
 
 
@@ -37,14 +37,13 @@ def _setupZopeSecurity(app):
 def _nukeAdmins(app):
     logging.info(u'Remove old admin users')
     acl_users = app.acl_users
-    admins = [i for i in acl_users.users.listUserIds()]
-    for i in admins:
-        acl_users.users.removeUser(i)
+    acl_users.userFolderDelUsers(acl_users.getUserNames())
 
 
 def _installAdmin(app, username, password):
     logging.info(u'Installing new admin user named %s', username)
-    acl_users.users.manage_addUser(username, username, password, password)
+    acl_users = app.acl_users
+    acl_users.userFolderAddUser(username, password, ['Manager'], [])
 
 
 def _setupPortal(app):

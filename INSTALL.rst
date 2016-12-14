@@ -6,25 +6,6 @@
 
 Want to install the MCL_ Site on your own system?  You're in the right place.
 
-Quick Start
-===========
-
-Hate reading?  Try riffing on the following (this works on Debian_, adjust as
-needed for other Unix_ flavors):
-
-• ``adduser mcl``
-• ``su - mcl``
-• ``tar xjf mcl-site-1.0.0.tar.bz2``
-• ``cd mcl-site-1.0.0``
-• ``./deploy.py --certificate-file=/etc/httpd/security/mcl.crt --key-file=/etc/httpd/security/mcl.ley mcl.nci.nih.gov``
-• ``install -o root -g root -m 644 parts/template/apache-httpd.conf /etc/apache2/sites-available/mcl.conf``
-• ``install -o root -g root -m 644 parts/template/apache-httpd--sl.conf /etc/apache2/sites-available/mcl-ssl.conf``
-• ``a2ensite mcl``
-• ``a2ensite mcl-ssl``
-• ``service apache2 reload``
-• ``rm -rf data``
-• ``echo WE ARE DONE``
-
 
 Requirements
 ============
@@ -75,14 +56,17 @@ Run it as the user account you intend to also run the MCL site software.
 Simply type::
 
     cd $INSTALL_DIR
-    ./deploy.py HOSTNAME
+    ./deploy.py [OPTIONS] HOSTNAME
 
 Replace HOSTNAME with the name of the public hostname via which the site will
 be accessed:
 
 • Use ``mcl-dev.nci.nih.gov`` for the development tier
 • Use ``mcl-test.nci.nih.gov`` for the staging tier
-• Use ``mcl.nci.nih.gov`` for the production tier
+• Use ``mcl.nci.nih.gov`` for the production tier.  For production, you *must*
+  supply the option ``--existing-install`` that tells where the previous
+  version of the MCL site exists so its content database can be migrated over
+  and updated.
 
 If the script fails to run, you may went to specify the Python interpreter;
 for example, type::
@@ -98,8 +82,9 @@ to see all the options.
 The deployment script will produce a detailed log file in the current
 directory called ``deploy.log``.  Consult this file if things go wrong.
 
-Once you get a clean run of ``deploy.py``, go ahead and start the MCL site
-software by running::
+Once you get a clean run of ``deploy.py``, shut down the old version of
+the site by running ``$OLD_INSTALL_DIR/bin/supervisorctl shutdown``.  You
+can then start the new version by running::
 
     sudo -Hu mcl $INSTALL_DIR/bin/supervisord
 
