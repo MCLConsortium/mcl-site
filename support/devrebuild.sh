@@ -36,18 +36,7 @@ echo 'Updating content blobs'
 rsync -crv --progress "$opsDBHost":"$opsDBPath/blobstorage" var
 echo 'Updating content database'
 rsync -cv --progress "$opsDBHost":"$opsDBPath/filestorage/Data.fs" var/filestorage
-echo 'Adding an admin user (with password "admin")'
-bin/zope-debug adduser admin admin
-if [ $? -ne 0 ]; then
-    cat <<EOF 1>&2
-Failed to add an new admin user. Try running
-
-    bin/zope-debug adduser admin admin
-
-yourself and figure out what went wrong.
-EOF
-    exit 1
-fi
-
-echo "At this point we'd run the upgrade step, but don't have it yet!"
+echo 'Upgrading MCL and Plone'
+bin/zope-debug run support/upgrade.py admin admin
+echo 'Done! You can start a debug instance with "bin/zope-debug fg"'
 exit 0
