@@ -60,6 +60,11 @@ def _upgradePlone(portal):
     migrationTool.upgrade(dry_run=False)
 
 
+def _upgradeScience(portal):
+    logging.info(u'Upgrading Science Package')
+    qi = getToolByName(portal, 'portal_quickinstaller')
+    qi.upgradeProduct('jpl.mcl.site.sciencedata')
+
 def _upgradeMCL(portal):
     logging.info(u'Upgrading MCL Site')
     qi = getToolByName(portal, 'portal_quickinstaller')
@@ -74,6 +79,7 @@ def _upgrade(app, username, password):
     portal = _setupPortal(app)
     _upgradePlone(portal)
     _upgradeMCL(portal)
+    _upgradeScience(portal)
     transaction.commit()
     noSecurityManager()
 

@@ -1,4 +1,4 @@
-.DS_Store
+yDS_Store
 ._*
 .*.cfg
 bin
@@ -10,3 +10,7 @@ src
 dist
 build
 parts
+.idea/
+plone/
+*.log
+site.cfg
