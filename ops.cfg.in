@@ -56,7 +56,6 @@ extends =
     etc/base.cfg
     etc/versions/known-good-versions.cfg
 parts =
-    certs
     lxml
     zeo
     zope
