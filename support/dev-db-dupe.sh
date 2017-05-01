@@ -48,7 +48,7 @@ cd "$blobstorage"
     --recursive \
     --user="$username" \
     --password="$password" \
-    https://edrn.nci.nih.gov/blobstorage/
+    https://mcl.nci.nih.gov/var/blobstorage/
 
 
 # Yay:
