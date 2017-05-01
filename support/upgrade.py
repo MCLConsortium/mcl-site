@@ -65,6 +65,7 @@ def _upgradeScience(portal):
     qi = getToolByName(portal, 'portal_quickinstaller')
     qi.upgradeProduct('jpl.mcl.site.sciencedata')
 
+
 def _upgradeMCL(portal):
     logging.info(u'Upgrading MCL Site')
     qi = getToolByName(portal, 'portal_quickinstaller')
@@ -77,7 +78,8 @@ def _upgrade(app, username, password):
     _nukeAdmins(app)
     _installAdmin(app, username, password)
     portal = _setupPortal(app)
-    _upgradePlone(portal)
+    # FIXME: In Plone 5.0.7, this fails. Need to report this to Plone team!
+    # _upgradePlone(portal)
     _upgradeMCL(portal)
     _upgradeScience(portal)
     transaction.commit()
