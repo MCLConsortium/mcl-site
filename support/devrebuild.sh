@@ -1,6 +1,6 @@
 #!/bin/sh
 # encoding: utf-8
-# Copyright 2016 California Institute of Technology. ALL RIGHTS
+# Copyright 2016–2017 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 #
 # Rebuild your local development environment using the latest weekly snapshots
@@ -32,11 +32,35 @@ EOF
 
 sleep 5
 
+echo 'Stopping zope-debug, if any'
+bin/zope-debug stop
 echo 'Updating content blobs'
 rsync -crv --progress "$opsDBHost":"$opsDBPath/blobstorage" var
 echo 'Updating content database'
 rsync -cv --progress "$opsDBHost":"$opsDBPath/filestorage/Data.fs" var/filestorage
-echo 'Upgrading MCL and Plone'
+echo 'Adding a Manager account to zope'
+bin/zope-debug run support/admin.py admin admin
+echo 'Starting Zope'
+bin/zope-debug start
+echo 'Waiting for Zope to get ready'
+sleep 30
+echo 'Upgrading Plone'
+curl 'http://localhost:6478/mcl/@@plone-upgrade' --user 'admin:admin' -XPOST \
+    -H 'Content-Type: application/x-www-form-urlencoded' \
+    --data 'form.submitted%3Aboolean=True&submit=Upgrade' --silent >/dev/null
+echo 'Stopping Zope'
+bin/zope-debug stop
+sleep 10
+echo 'Upgrading MCL'
 bin/zope-debug run support/upgrade.py admin admin
+echo 'Starting Zope'
+bin/zope-debug start
+echo 'Waiting for Zope to get ready'
+sleep 30
+echo 'Ingesting'
+curl 'http://localhost:6478/mcl/@@ingestKnowledge' --user 'admin:admin' >/dev/null
+echo 'Stopping Zope'
+bin/zope-debug stop
+sleep 10
 echo 'Done! You can start a debug instance with "bin/zope-debug fg"'
 exit 0

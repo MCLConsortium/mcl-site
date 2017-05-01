@@ -5,9 +5,11 @@
 
 from AccessControl.SecurityManagement import newSecurityManager, noSecurityManager
 from AccessControl.SecurityManager import setSecurityPolicy
+from plone.app.linkintegrity.handlers import modifiedContent
 from Products.CMFCore.tests.base.security import PermissiveSecurityPolicy, OmnipotentUser
 from Products.CMFCore.utils import getToolByName
 from Testing import makerequest
+from zExceptions import NotFound
 from zope.component.hooks import setSite
 import sys, argparse, logging, transaction
 
@@ -34,18 +36,6 @@ def _setupZopeSecurity(app):
     newSecurityManager(None, OmnipotentUser().__of__(acl_users))
 
 
-def _nukeAdmins(app):
-    logging.info(u'Remove old admin users')
-    acl_users = app.acl_users
-    acl_users.userFolderDelUsers(acl_users.getUserNames())
-
-
-def _installAdmin(app, username, password):
-    logging.info(u'Installing new admin user named %s', username)
-    acl_users = app.acl_users
-    acl_users.userFolderAddUser(username, password, ['Manager'], [])
-
-
 def _setupPortal(app):
     logging.info(u'Setting up the portal')
     portal = app.unrestrictedTraverse('mcl')
@@ -66,6 +56,28 @@ def _upgradeScience(portal):
     qi.upgradeProduct('jpl.mcl.site.sciencedata')
 
 
+def _updateLinkIntegrity(portal):
+    logging.info(u'Updating link integrity information')
+    catalog = getToolByName(portal, 'portal_catalog')
+    count = 0
+    for brain in catalog({}):
+        try:
+            obj = brain.getObject()
+        except (AttributeError, NotFound, KeyError):
+            msg = "Catalog inconsistency: {} not found!"
+            logging.error(msg.format(brain.getPath()), exc_info=1)
+            continue
+        try:
+            modifiedContent(obj, 'dummy event parameter')
+            count += 1
+        except Exception:
+            msg = "Error updating linkintegrity-info for {}."
+            logging.error(msg.format(obj.absolute_url()), exc_info=1)
+        if count % 1000 == 0:
+            transaction.savepoint(optimistic=True)
+    logging.info(u'Updated %d objects', count)
+
+
 def _upgradeMCL(portal):
     logging.info(u'Upgrading MCL Site')
     qi = getToolByName(portal, 'portal_quickinstaller')
@@ -75,11 +87,10 @@ def _upgradeMCL(portal):
 def _upgrade(app, username, password):
     app = makerequest.makerequest(app)
     _setupZopeSecurity(app)
-    _nukeAdmins(app)
-    _installAdmin(app, username, password)
     portal = _setupPortal(app)
     # FIXME: In Plone 5.0.7, this fails. Need to report this to Plone team!
     # _upgradePlone(portal)
+    _updateLinkIntegrity(portal)
     _upgradeMCL(portal)
     _upgradeScience(portal)
     transaction.commit()
