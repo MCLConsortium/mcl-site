@@ -1,3 +1,15 @@
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.3 - 2017-05-03
+
+** Bug
+    * [CA-1520] - Ingest URLs incorrect
+    * [CA-1521] - MCL Search and Site Map broken
+    * [CA-1522] - Blobstorage error on MCL
+
+** Improvement
+    * [CA-1512] - Add ingestion to deployment (jenkins) so that we don't have to manually do it.
+    * [CA-1516] - MCL Portal Updates
+
+
 Release Notes - Early Detection of Cancer - Version MCL Site 1.0.2 - 2017-04-17
 
 ** Bug
