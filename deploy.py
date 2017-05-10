@@ -10,7 +10,8 @@ import random, string
 
 _requiredHeaders = ['openssl/ssl.h', 'jpeglib.h']
 _basePort = 6710
-_cms = u'https://launchpad.net/plone/5.0/5.0.6/+download/Plone-5.0.6-UnifiedInstaller-r1.tgz'
+_cms = u'https://launchpad.net/plone/5.0/5.0.7/+download/Plone-5.0.7-UnifiedInstaller.tgz'
+_pip = u'https://bootstrap.pypa.io/get-pip.py'
 _bufsize = 512
 
 
@@ -196,7 +197,7 @@ def _installCMS(context):
                 o.write(buf)
     tar = tarfile.open(tar)
     tar.extractall(workspace)
-    cmsDir = os.path.join(workspace, 'Plone-5.0.6-UnifiedInstaller-r1')
+    cmsDir = os.path.join(workspace, 'Plone-5.0.7-UnifiedInstaller')
     bpPatch = os.path.join(context, 'patches', 'bp.patch')
     _exec('/usr/bin/patch', ('patch', '-p0', '-i', bpPatch), cmsDir)
     installer = os.path.join(cmsDir, 'install.sh')
@@ -301,6 +302,25 @@ def _checkPassword(parser, password):
     return password
 
 
+def _installPIP(context):
+    logging.info(u'Installing pip, setuptools')
+    sentinel = os.path.join(context, 'plone', 'Python-2.7', 'lib', 'python2.7', 'site-packages', 'six.py')
+    if not os.path.isfile(sentinel):
+        workspace = tempfile.mkdtemp(prefix='mcl-')
+        getPIP = os.path.join(workspace, 'get-pip.py')
+        with open(getPIP, 'wb') as o:
+            with contextlib.closing(urllib2.urlopen(_pip)) as i:
+                while True:
+                    buf = i.read(_bufsize)
+                    if len(buf) == 0: break
+                    o.write(buf)
+        py = os.path.join(context, 'plone', 'Python-2.7', 'bin', 'python')
+        args = (py, getPIP)
+        _exec(py, args, context)
+    else:
+        logging.debug(u'Already installed pip, setuptools')
+
+
 def _bootstrap(context):
     logging.info(u'Bootstrapping the buildout')
     sentinel = os.path.join(context, 'bin', 'buildout')
@@ -308,7 +328,7 @@ def _bootstrap(context):
         py = os.path.join(context, 'plone', 'Python-2.7', 'bin', 'python')
         bootstrap = os.path.join(context, 'bootstrap.py')
         config = os.path.join(context, 'site.cfg')
-        args = (py, bootstrap, '-c', config)
+        args = (py, bootstrap, '--allow-site-packages', '-c', config)
         _exec(py, args, context)
     else:
         logging.debug(u'Already boostrapped.')
@@ -399,6 +419,7 @@ def main(argv):
         _checkHeaders([])
         _getCMS(context)
         _patchDists(context)
+        _installPIP(context)
         _writeConfig(
             context,
             publicHostname,
@@ -412,7 +433,15 @@ def main(argv):
             ports
         )
         _bootstrap(context)
-        _buildout(context)
+        try:
+            _buildout(context)
+        except:
+            # Sometimes you just need to try again
+            try:
+                _buildout(context)
+            except:
+                # And again
+                _buildout(context)
         if options.existing_install:
             _migrate(options.existing_install, context, options.zope_user, zopePassword)
         else:
