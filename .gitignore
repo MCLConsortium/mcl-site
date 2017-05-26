@@ -1,4 +1,4 @@
-yDS_Store
+.DS_Store
 ._*
 .*.cfg
 bin
@@ -14,3 +14,4 @@ parts
 plone/
 *.log
 site.cfg
+ops.cfg
