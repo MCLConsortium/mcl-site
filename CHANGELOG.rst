@@ -1,4 +1,4 @@
-Release Notes - Early Detection of Cancer - Version MCL Site 1.0.3 - 2017-05-03
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.4 - 2017-05-03
 
 ** Bug
     * [CA-1520] - Ingest URLs incorrect
