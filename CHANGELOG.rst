@@ -1,3 +1,10 @@
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.5 - 2017-06-01
+
+** Improvement
+    * [CA-1501] - Only text ingest is supported
+    * [CA-1542] - Make MCL portal authenticate via LDAP
+
+
 Release Notes - Early Detection of Cancer - Version MCL Site 1.0.4 - 2017-05-03
 
 ** Bug
