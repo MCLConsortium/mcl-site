@@ -4,13 +4,13 @@
 _version = 'UNKNOWN'
 
 
-import logging, optparse, subprocess, os.path, sys, urllib2, tarfile, tempfile, contextlib, traceback, shutil, pwd
-import random, string
+import logging, optparse, subprocess, os.path, sys, urllib2, tarfile, tempfile, contextlib, traceback, shutil, pwd, os
+import random, string, getpass
 
 
 _requiredHeaders = ['openssl/ssl.h', 'jpeglib.h']
 _basePort = 6710
-_cms = u'https://launchpad.net/plone/5.0/5.0.7/+download/Plone-5.0.7-UnifiedInstaller.tgz'
+_cms = u'https://launchpad.net/plone/5.0/5.0.8/+download/Plone-5.0.8-UnifiedInstaller.tgz'
 _pip = u'https://bootstrap.pypa.io/get-pip.py'
 _bufsize = 512
 
@@ -96,6 +96,11 @@ def _makeOptParser(context):
     parser.add_option(
         u'-e', u'--existing-install', metavar=u'DIR',
         help=u'Migrate the content from the previous MCL site installed in DIR'
+    )
+    parser.add_option(
+        u'-l', u'--ldap-password',
+        help=u'''Password to access the MCL LDAP server. This is required if you're using --existing-install. '''
+        u'''If not given you will be prompted.'''
     )
     ssl = optparse.OptionGroup(
         parser,
@@ -197,7 +202,7 @@ def _installCMS(context):
                 o.write(buf)
     tar = tarfile.open(tar)
     tar.extractall(workspace)
-    cmsDir = os.path.join(workspace, 'Plone-5.0.7-UnifiedInstaller')
+    cmsDir = os.path.join(workspace, 'Plone-5.0.8-UnifiedInstaller')
     bpPatch = os.path.join(context, 'patches', 'bp.patch')
     _exec('/usr/bin/patch', ('patch', '-p0', '-i', bpPatch), cmsDir)
     installer = os.path.join(cmsDir, 'install.sh')
@@ -443,6 +448,11 @@ def main(argv):
                 # And again
                 _buildout(context)
         if options.existing_install:
+            if options.ldap_password:
+                ldapPassword = options.ldap_password
+            else:
+                ldapPassword = getpass.getpass(u'MCL LDAP Password: ')
+            os.environ['LDAP_PASSWORD'] = ldapPassword
             _migrate(options.existing_install, context, options.zope_user, zopePassword)
         else:
             _populate(context, 'mcl-lite.zexp')

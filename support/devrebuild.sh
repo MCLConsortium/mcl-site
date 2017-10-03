@@ -40,18 +40,7 @@ echo 'Updating content database'
 rsync -cv --progress "$opsDBHost":"$opsDBPath/filestorage/Data.fs" var/filestorage
 echo 'Adding a Manager account to zope'
 bin/zope-debug run support/admin.py admin admin
-echo 'Starting Zope'
-bin/zope-debug start
-echo 'Waiting for Zope to get ready'
-sleep 30
-echo 'Upgrading Plone'
-curl 'http://localhost:6478/mcl/@@plone-upgrade' --user 'admin:admin' -XPOST \
-    -H 'Content-Type: application/x-www-form-urlencoded' \
-    --data 'form.submitted%3Aboolean=True&submit=Upgrade' --silent >/dev/null
-echo 'Stopping Zope'
-bin/zope-debug stop
-sleep 10
-echo 'Upgrading MCL'
+echo 'Upgrading Plone and MCL'
 bin/zope-debug run support/upgrade.py admin admin
 echo 'Starting Zope'
 bin/zope-debug start

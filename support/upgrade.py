@@ -88,8 +88,7 @@ def _upgrade(app, username, password):
     app = makerequest.makerequest(app)
     _setupZopeSecurity(app)
     portal = _setupPortal(app)
-    # FIXME: In Plone 5.0.7, this fails. Need to report this to Plone team!
-    # _upgradePlone(portal)
+    _upgradePlone(portal)
     _updateLinkIntegrity(portal)
     _upgradeMCL(portal)
     _upgradeScience(portal)

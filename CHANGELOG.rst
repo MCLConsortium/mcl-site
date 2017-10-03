@@ -1,3 +1,12 @@
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.6 - 2017-10-03 - NCI OPERATIONS
+
+** Bug
+    * [CA-1553] - Separate interfaces into interface class for better decoupling
+
+** Improvement
+    * [CA-1546] - Add Personnels Institution Affiliation to MCL Portal
+
+
 Release Notes - Early Detection of Cancer - Version MCL Site 1.0.5 - 2017-06-01
 
 ** Improvement
