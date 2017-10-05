@@ -8,11 +8,13 @@ import logging, optparse, subprocess, os.path, sys, urllib2, tarfile, tempfile, 
 import random, string, getpass
 
 
-_requiredHeaders = ['openssl/ssl.h', 'jpeglib.h']
+_requiredHeaders = ['openssl/ssl.h', 'jpeglib.h', 'sasl/sasl.h']
 _basePort = 6710
 _cms = u'https://launchpad.net/plone/5.0/5.0.8/+download/Plone-5.0.8-UnifiedInstaller.tgz'
 _pip = u'https://bootstrap.pypa.io/get-pip.py'
 _bufsize = 512
+# Stupid CBIIT systems so freakin' old they can't give us recent LDAP/SSL
+_ldapURL = 'https://pypi.python.org/packages/source/p/python-ldap/python-ldap-2.4.25.tar.gz'
 
 
 class _DeploymentException(Exception):
@@ -190,6 +192,22 @@ def _makeOptParser(context):
     return parser
 
 
+def _installLDAP(context):
+    curl = os.path.abspath(u'/usr/bin/curl')
+    args = (curl, '-kLO', _ldapURL)
+    _exec(curl, args, context)
+    tar = os.path.abspath(u'/bin/tar')
+    args = (tar, u'-xzf', u'python-ldap-2.4.25.tar.gz')
+    _exec(tar, args, context)
+    patchfile = os.path.abspath(os.path.join(u'patches', u'python-ldap.patch'))
+    patcher = os.path.abspath(u'/usr/bin/patch')
+    args = (patcher, u'-p0', u'-i', patchfile)
+    _exec(patcher, args, os.path.abspath(os.path.join(context, u'python-ldap-2.4.25')))
+    py = os.path.abspath(os.path.join(context, u'plone', u'Python-2.7', u'bin', u'python2.7'))
+    args = (py, u'setup.py', u'install')
+    _exec(py, args, os.path.abspath(os.path.join(context, u'python-ldap-2.4.25')))
+
+
 def _installCMS(context):
     logging.info(u'Installing CMS')
     workspace = tempfile.mkdtemp(prefix='mcl-')
@@ -210,6 +228,7 @@ def _installCMS(context):
     args = (installer, '--target=%s' % target, '--build-python', '--nobuildout', '--static-lxml', 'none')
     _exec(installer, args, context)
     shutil.rmtree(workspace)
+    _installLDAP(context)
 
 
 def _getCMS(context):
@@ -260,6 +279,8 @@ def _writeConfig(
     eggs, downloads = os.path.join(buildoutCache, 'eggs'), os.path.join(buildoutCache, 'downloads')
     extends = os.path.join(context, 'extends')
     with open(config, 'w') as out:
+        print >>out, '[versions]'
+        print >>out, 'python-ldap = 2.4.25'
         print >>out, '[ssl]'
         print >>out, 'certificate-file = %s' % certFile
         print >>out, 'key-file = %s' % keyFile
@@ -285,6 +306,10 @@ def _writeConfig(
         print >>out, 'eggs-directory = %s' % eggs
         print >>out, 'download-cache = %s' % downloads
         print >>out, 'extends-cache = %s' % extends
+        print >>out, 'parts += python-ldap'
+        print >>out, '[python-ldap]'
+        print >>out, 'recipe = syseggrecipe'
+        print >>out, 'eggs = python-ldap'
 
 
 def _getCurrentUser():
@@ -415,6 +440,11 @@ def main(argv):
                 u'''Specify the public hostname of the MCL site, such as "mcl.nci.nih.gov", '''
                 u'''"mcl-dev.nci.nih.gov", etc.'''
             )
+        if options.existing_install:
+            if options.ldap_password:
+                ldapPassword = options.ldap_password
+            else:
+                ldapPassword = getpass.getpass(u'MCL LDAP Password: ')
         _checkDeploymentDirectory(context)
         publicHostname = args[1]
         ports = _computePortNumbers(parser, options)
@@ -448,10 +478,6 @@ def main(argv):
                 # And again
                 _buildout(context)
         if options.existing_install:
-            if options.ldap_password:
-                ldapPassword = options.ldap_password
-            else:
-                ldapPassword = getpass.getpass(u'MCL LDAP Password: ')
             os.environ['LDAP_PASSWORD'] = ldapPassword
             _migrate(options.existing_install, context, options.zope_user, zopePassword)
         else:
