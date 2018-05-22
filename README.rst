@@ -33,3 +33,17 @@ Support
 Once the MCL Portal is in operations at NCI, you can get post-operational
 support by emailing ``ncicb@pop.nci.nih.gov``.
 
+
+Developers
+==========
+
+You'll want to do::
+
+    virtualenv python2.7-for-mcl-site
+    cd python2.7-for-mcl-site
+    bin/pip install setuptools==38.5.1
+    cd ..
+    git clone git@github.com:MCLConsortium/mcl-site.git
+    cd mcl-site
+    ../python2.7-for-mcl-site/bin/python2.7 bootstrap.py --setuptools-version=38.5.1 -c dev.cfg
+    bin/buildout -c dev.cfg
