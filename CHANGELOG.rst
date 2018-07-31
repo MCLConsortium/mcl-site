@@ -1,3 +1,11 @@
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.7 - 2018-07-31 - NCI OPERATIONS
+
+** Improvement
+    * [CA-1580] - Move publication to main page
+
+(Apparently the CAPTCHA issue never made it into JIRA so it was never officially fixed.)
+
+
 Release Notes - Early Detection of Cancer - Version MCL Site 1.0.6 - 2017-10-03 - NCI OPERATIONS
 
 ** Bug
