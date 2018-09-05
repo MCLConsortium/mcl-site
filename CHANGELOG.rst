@@ -1,3 +1,8 @@
+Release Notes - Early Detection of Cancer - Version MCL Site 1.0.8 - 2018-09-05 - NCI OPERATIONS
+
+** Captcha!
+
+
 Release Notes - Early Detection of Cancer - Version MCL Site 1.0.7 - 2018-07-31 - NCI OPERATIONS
 
 ** Improvement
