@@ -208,6 +208,15 @@ def _installLDAP(context):
     _exec(py, args, os.path.abspath(os.path.join(context, u'python-ldap-2.4.25')))
 
 
+def _patchPIP(context):
+    # See https://community.plone.org/t/typeerror-version-object-has-no-attribute-getitem/6187
+    pip = os.path.join(context, 'plone', 'Python-2.7', 'bin', 'pip')
+    _exec(pip, (pip, 'install', 'setuptools==38.5.1'), context)
+    # I'm paranoid
+    pip = os.path.join(context, 'plone', 'zinstance', 'bin', 'pip')
+    _exec(pip, (pip, 'install', 'setuptools==38.5.1'), context)
+
+
 def _installCMS(context):
     logging.info(u'Installing CMS')
     workspace = tempfile.mkdtemp(prefix='mcl-')
@@ -281,6 +290,7 @@ def _writeConfig(
     with open(config, 'w') as out:
         print >>out, '[versions]'
         print >>out, 'python-ldap = 2.4.25'
+        print >>out, 'setuptools = 38.5.1'
         print >>out, '[ssl]'
         print >>out, 'certificate-file = %s' % certFile
         print >>out, 'key-file = %s' % keyFile
@@ -347,6 +357,7 @@ def _installPIP(context):
         py = os.path.join(context, 'plone', 'Python-2.7', 'bin', 'python')
         args = (py, getPIP)
         _exec(py, args, context)
+        _patchPIP(context)
     else:
         logging.debug(u'Already installed pip, setuptools')
 
@@ -358,7 +369,7 @@ def _bootstrap(context):
         py = os.path.join(context, 'plone', 'Python-2.7', 'bin', 'python')
         bootstrap = os.path.join(context, 'bootstrap.py')
         config = os.path.join(context, 'site.cfg')
-        args = (py, bootstrap, '--allow-site-packages', '-c', config)
+        args = (py, bootstrap, '--allow-site-packages', '--setuptools-version=38.5.1', '-c', config)
         _exec(py, args, context)
     else:
         logging.debug(u'Already boostrapped.')
