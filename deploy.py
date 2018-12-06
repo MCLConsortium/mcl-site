@@ -290,7 +290,7 @@ def _writeConfig(
     with open(config, 'w') as out:
         print >>out, '[versions]'
         print >>out, 'python-ldap = 2.4.25'
-        print >>out, 'setuptools = 38.5.1'
+        print >>out, 'setuptools ='
         print >>out, '[ssl]'
         print >>out, 'certificate-file = %s' % certFile
         print >>out, 'key-file = %s' % keyFile

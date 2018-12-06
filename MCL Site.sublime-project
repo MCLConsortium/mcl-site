@@ -5,13 +5,16 @@
          "folder_exclude_patterns" : [
             "bin",
             "develop-eggs",
+            "dist",
             "parts",
+            "src",
             "var"
          ],
          "file_exclude_patterns" : [
             ".*.cfg",
             "bootstrap.py",
-            "*.sublime-*"
+            "*.sublime-*",
+            "ops.cfg"
          ]
       }
    ]

@@ -16,6 +16,7 @@ The following requirements must be met before running the deployment script:
   generate configurations automatically for Apache HTTPD
 • OpenSSL_ 1.0.2 or similar with development headers
 • LibJPEG_ 6.2 or similar with development headers
+• memcached_ 1.5 or so
 • Certificate and key files for the HTTPS domain name used to access the site
 • Regular Unix build environment with C compiler, ``make``, etc.
 • Internet access; the deployment process downloads several components during
@@ -176,3 +177,4 @@ http://cancer.jpl.nasa.gov/contact-info.
 .. _LibJPEG: https://jpeg.org/
 .. _Plone: https://plone.org/
 .. _Zope: http://www.zope.org/
+.. _memcached: https://memcached.org/
