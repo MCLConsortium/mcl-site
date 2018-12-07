@@ -44,10 +44,13 @@ def _setupPortal(app):
     return portal
 
 
-def _upgradePlone(portal):
-    logging.info(u'Upgrading Plone')
-    migrationTool = getToolByName(portal, 'portal_migration')
-    migrationTool.upgrade(dry_run=False)
+# This doesn't work anymore. Instead, the calling script will do::
+#     curl -v 'http://localhost:6478/mcl/@@plone-upgrade' --user 'admin:admin' -H 'Content-Type: application/x-www-form-urlencoded' --data 'form.submitted%3Aboolean=True&submit=Upgrade'
+# Good bye seirdly nonfunctional migrationTool upgrade!
+# def _upgradePlone(portal):
+#     logging.info(u'Upgrading Plone')
+#     migrationTool = getToolByName(portal, 'portal_migration')
+#     migrationTool.upgrade(dry_run=False)
 
 
 def _upgradeScience(portal):
@@ -88,7 +91,6 @@ def _upgrade(app, username, password):
     app = makerequest.makerequest(app)
     _setupZopeSecurity(app)
     portal = _setupPortal(app)
-    _upgradePlone(portal)
     _updateLinkIntegrity(portal)
     _upgradeMCL(portal)
     _upgradeScience(portal)
