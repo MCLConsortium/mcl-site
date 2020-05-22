@@ -56,7 +56,7 @@ bin/zope-debug start
 echo 'Waiting for Zope to get ready'
 sleep 30
 echo 'Ingesting'
-# curl 'http://localhost:6478/mcl/@@ingestKnowledge' --user 'admin:admin' >/dev/null
+curl 'http://localhost:6478/mcl/@@ingestKnowledge' --user 'admin:admin' >/dev/null
 echo 'Stopping Zope'
 bin/zope-debug stop
 sleep 10
