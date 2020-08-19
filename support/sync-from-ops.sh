@@ -62,13 +62,13 @@ wget \
 # Zope Blobs
 # ----------
 #
-# There are 7+ gigabytes worth of blobs and they hardly change, so we
+# There is a gigabyte worth of blobs and they hardly change, so we
 # definitely take advantage of the timestamping and mirroring features of
 # ``wget`` in order to speed things up on subsequent runs.
 
 echo "📀 Retrieving blobs" 1>&2
 [ -d "$blobstorage" ] || mkdir -p "$blobstorage"
-cd "$blobstorage"
+cd "$blobstorage"/..
 wget \
     --quiet \
     --execute robots=off \

@@ -25,15 +25,6 @@ username = supervisor-admin
 password = secret
 
 
-# Users
-# -----
-#
-# cancer.jpl.nasa.gov has an "mcl" account for sandboxing
-[users]
-zeo     = mcl
-zope    = mcl
-
-
 # Zope Debugging Instance
 # -----------------------
 #
@@ -45,9 +36,9 @@ zeo-client = true
 # Buildout
 # --------
 #
-# For JPL, fill in /usr/local/mcl/buildout/{eggs,downloads,extends} below.
-# For NCI, the deploy.py script takes care of this.
+# That's it.
 [buildout]
+# These get set elsewhere:
 # eggs-directory       = 
 # download-cache       = 
 # extends-cache        = 
@@ -62,9 +53,4 @@ parts =
     zope-debug
     supervisor
     backup
-    logrotate
-    init
-    apache-httpd
-    apache-httpd-ssl
     python
-    ${buildout:crontab-parts}
