@@ -62,16 +62,16 @@ def disableEmail(portal):
 #     skinName = portal.getCurrentSkinName() if portal.getCurrentSkinName() else 'Plone Default'
 #     hidden = list(storage.getHidden('plone.portaltop', skinName))
 #     try:
-#         hidden.remove('edrn.dev_warning')
+#         hidden.remove('mcl.dev_warning')
 #         storage.setHidden('plone.portaltop', skinName, hidden)
 #     except ValueError:
 #         pass
 
 
 def _main(app):
-    # Apparently we don't need this; just do ``bin/zope-debug -O edrn run $PWD/support/upgradeEDRN.py``
-    portal = app['edrn']
-    # Don't need this either, thanks to ``-O edrn``
+    # Apparently we don't need this; just do ``bin/zope-debug -O mcl run $PWD/support/upgradeMCL.py``
+    portal = app['mcl']
+    # Don't need this either, thanks to ``-O mcl``
     # setSite(portal)
     # setLDAPcacheParams(portal)  # not ready
     disableSearchEngines(portal)
