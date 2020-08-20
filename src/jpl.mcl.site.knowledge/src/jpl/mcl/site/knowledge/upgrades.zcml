@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+Copyright 2016 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    i18n_domain='jpl.mcl.site.knowledge'>
+    <genericsetup:upgradeStep
+        source='0'
+        destination='1'
+        title='Upgrade 0 to 1'
+        description='Upgrade the MCL site knowledge from version 0 to version 1 (null upgrade, no custom steps required)'
+        profile='jpl.mcl.site.knowledge:default'
+        handler='jpl.mcl.site.knowledge.upgrades.nullUpgradeStep'
+        sortkey='1'
+    />
+    <genericsetup:upgradeStep
+        source='1'
+        destination='2'
+        title='MCL Policy Upgrade 1 to 2'
+        description='Upgrade the MCL site knowledge from profile 1 to 2 with jpl.mcl.site.knowledge (new dependency)'
+        profile='jpl.mcl.site.knowledge:default'
+        handler='jpl.mcl.site.knowledge.upgrades.movePublications'
+        sortkey='1'
+    />
+</configure>

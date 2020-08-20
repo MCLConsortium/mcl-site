@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<object name='portal_types' meta_type='Plone Types Tool'>
+    <object name='jpl.mcl.site.knowledge.degree' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.degreefolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.organ' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.organfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.person' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.personfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.institution' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.institutionfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.participatingsite' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.participatingsitefolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.protocol' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.protocolfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.publication' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.publicationfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.group' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.groupfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.disease' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.diseasefolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.discipline' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.disciplinefolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.species' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.speciesfolder' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.specimentype' meta_type='Dexterity FTI'/>
+    <object name='jpl.mcl.site.knowledge.specimentypefolder' meta_type='Dexterity FTI'/>
+</object>

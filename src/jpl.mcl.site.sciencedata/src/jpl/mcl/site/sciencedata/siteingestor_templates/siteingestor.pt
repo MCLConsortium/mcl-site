@@ -1,0 +1,102 @@
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal' xmlns:i18n='http://xml.zope.org/namespaces/i18n' xml:lang='en'
+    lang='en' metal:use-macro='context/main_template/macros/master' i18n:domain='jpl.mcl.site.sciencedata'>
+    <head>
+        <title>Site Ingestor</title>
+        <!--
+            view variables:
+            • ingestRunning: True if an ingest is already occurring, false otherwise
+            • ingestStart: if ingestRunning is True, this is a datetime.datetime that tells when the currently
+              running ingest was started
+            • completeResults: when ingest is finished, this will be a jpl.mcl.site.sciencedata._utils.IngestResults
+              object that tells what happened
+            • skipped: containers that had ingest disabled  
+        -->
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <metal:main define-macro='main' tal:define='
+                ingestRunning view/ingestRunning|nothing;
+                ingestStart view/ingestStart|nothing;
+                completeResults view/completeResults|nothing;
+                skipped view/skipped|nothing;
+            '>
+                <h1 class='documentFirstHeading' i18n:translate='h1-siteIngestReport'>
+                    Site Ingest Report
+                </h1>
+                <p class='documentDescription' i18n:translate='p-reportDescription'>
+                    This report shows the results of the RDF update.
+                </p>
+                <p tal:condition='ingestRunning' i18n:translate='p-ingestRunning'>
+                    The ingest process is currently running.  It was started at
+                    <span i18n:name='span-startTime' tal:content='python:ingestStart.isoformat()'>
+                        1970-01-01T00:00:00
+                    </span>.
+                </p>
+                <div tal:condition='not:ingestRunning'>
+                    <h2 i18n:translate='h2-ingestComplete' tal:condition='completeResults'>
+                        Ingest Complete
+                    </h2>
+                    <dl tal:define='
+                        created python:unicode(len(completeResults.created));
+                        updated python:unicode(len(completeResults.updated));
+                        deleted python:unicode(len(completeResults.deleted));
+                        numSkip python:unicode(len(skipped));
+                    '>
+                        <dt i18n:translate='dt-created'>
+                            Objects Created
+                            (<span i18n:name='numCreated' tal:omit-tag='' tal:content='created'>12</span>)
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li tal:repeat='object python:completeResults.created'>
+                                    <a href='#' tal:attributes='href object/absolute_url' tal:content='object/title'>
+                                        Some object
+                                    </a>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dt i18n:translate='dt-updated'>
+                            Objects Updated
+                            (<span i18n:name='numUpdated' tal:omit-tag='' tal:content='updated'>23</span>)
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li tal:repeat='object python:completeResults.updated'>
+                                    <a href='#' tal:attributes='href object/absolute_url' tal:content='object/title'>
+                                        Some object
+                                    </a>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dt i18n:translate='dt-deleted'>
+                            Objects Deleted
+                            (<span i18n:name='numDeleted' tal:omit-tag='' tal:content='deleted'>34</span>)
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li tal:repeat='object python:completeResults.deleted'>
+                                    <span tal:replace='object/title'>Some identifier</span>
+                                </li>
+                            </ul>
+                        </dd>
+                        <dt i18n:translate='dt-skipped'>
+                            Containers Skipped
+                            (<span i18n:name='numSkipped' tal:omit-tag='' tal:content='numSkip'>45</span>)
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li tal:repeat='object skipped'>
+                                    <a href='#' tal:attributes='href object/absolute_url' tal:content='object/title'>
+                                        Some object
+                                    </a>
+                                </li>
+                            </ul>
+                        </dd>
+                     </dl>
+                </div>
+            </metal:main>
+        </metal:main>
+    </body>
+</html>
+

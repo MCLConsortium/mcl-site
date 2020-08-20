@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<registry xmlns:i18n='http://xml.zope.org/namespaces/i18n'>
+    <record name='jpl.mcl.site.sciencedata.interfaces.ISettings.ingestEnabled'
+        interface='jpl.mcl.site.sciencedata.interfaces.ISettings'
+        field='ingestEnabled'>
+        <field type='plone.registry.field.Bool'>
+            <title i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>Enable Ingestion</title>
+            <description i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>
+                If enabled, ingestion may update sciencedata folders with content.
+            </description>
+            <default>True</default>
+        </field>
+        <value>True</value>
+    </record>
+    <record name='jpl.mcl.site.sciencedata.interfaces.ISettings.ingestStart'
+        interface='jpl.mcl.site.sciencedata.interfaces.ISettings'
+        field='ingestStart'>
+        <field type='plone.registry.field.Datetime'>
+            <title i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>Start Time</title>
+            <description i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>
+                If value appears, this indicates the time an active ingest started. You won't need to set this.
+            </description>
+        </field>
+    </record>
+    <record name='jpl.mcl.site.sciencedata.interfaces.ISettings.objects'
+        interface='jpl.mcl.site.sciencedata.interfaces.ISettings'
+        field='objects'>
+        <field type='plone.registry.field.List'>
+            <title i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>Objects</title>
+            <description i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>
+                Paths to objects that should be ingested.
+            </description>
+            <value_type type='plone.registry.field.TextLine'>
+                <title i18n:domain='jpl.mcl.site.sciencedata' i18n:translate=''>Object Path</title>
+            </value_type>
+        </field>
+    </record>
+</registry>

@@ -1,0 +1,5 @@
+Installation
+============
+
+Add this egg to your Zope app server using the plone.recipe.zope2instance
+recipe.

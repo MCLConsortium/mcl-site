@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2016 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acsciencedatad.
+-->
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    xmlns:grok='http://namespaces.zope.org/grok'
+    xmlns:zcml='http://namespaces.zope.org/zcml'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    xmlns:faceted='http://namespaces.zope.org/faceted'
+    i18n_domain='jpl.mcl.site.sciencedata'>
+    <include package='z3c.autoinclude' file='meta.zcml'/>
+    <include package='plone.behavior' file='meta.zcml'/>
+    <include package='plone.app.relationfield'/>
+    <include package='.browser'/>
+    <includeDependencies package='.'/>
+    <grok:grok package='.'/>
+    <browser:resourceDirectory
+        name='jpl.mcl.site.sciencedata'
+        directory='static'
+    />
+    <genericsetup:registerProfile
+        name='default'
+        title='MCL Site Science Data'
+        directory='profiles/default'
+        description='MCL sciencedata content types and RDF/JSON ingestion'
+        provides='Products.GenericSetup.interfaces.EXTENSION'
+    />
+    <faceted:view
+        name='faceted_sciencedata_view'
+        template='templates/faceted_sciencedata_view.pt'
+        title='Faceted Science Data View'
+        permission='zope2.View'
+    />
+    <genericsetup:importStep
+        name='jpl.mcl.site.sciencedata'
+        title='MCL Site Science Data Folder Creation'
+        description='Creates the initial sciencedata folders and sets their ingest URLs'
+        handler='jpl.mcl.site.sciencedata.setuphandlers.createScienceDataFolders'>
+        <depends name='content'/>
+    </genericsetup:importStep>
+    <include
+        zcml:condition='installed Products.GenericSetup.upgrade'
+        file='upgrades.zcml'
+    />
+</configure>

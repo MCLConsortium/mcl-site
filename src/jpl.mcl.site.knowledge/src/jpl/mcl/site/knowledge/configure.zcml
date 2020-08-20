@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2016 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    xmlns:grok='http://namespaces.zope.org/grok'
+    xmlns:zcml='http://namespaces.zope.org/zcml'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    i18n_domain='jpl.mcl.site.knowledge'>
+    <include package='z3c.autoinclude' file='meta.zcml'/>
+    <include package='plone.behavior' file='meta.zcml'/>
+    <include package='plone.app.relationfield'/>
+    <include package='.browser'/>
+    <includeDependencies package='.'/>
+    <grok:grok package='.'/>
+    <browser:resourceDirectory
+        name='jpl.mcl.site.knowledge'
+        directory='static'
+    />
+    <genericsetup:registerProfile
+        name='default'
+        title='MCL Site Knowledge'
+        directory='profiles/default'
+        description='MCL knowledge content types and RDF ingestion'
+        provides='Products.GenericSetup.interfaces.EXTENSION'
+    />
+    <genericsetup:importStep
+        name='jpl.mcl.site.knowledge'
+        title='MCL Site Knowledge Folder Creation'
+        description='Creates the initial knowledge folders and sets their ingest URLs'
+        handler='jpl.mcl.site.knowledge.setuphandlers.createKnowledgeFolders'>
+        <depends name='content'/>
+    </genericsetup:importStep>
+    <include
+        zcml:condition='installed Products.GenericSetup.upgrade'
+        file='upgrades.zcml'
+    />
+</configure>

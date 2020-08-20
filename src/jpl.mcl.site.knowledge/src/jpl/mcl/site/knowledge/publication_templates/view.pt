@@ -1,0 +1,78 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Publication View</title>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core'>
+                <div class='field' id='formfield-form-widgets-year'>
+                    <label for='form-widgets-year' i18n:translate='label_year' class='horizontal'>
+                        Year
+                    </label>
+                    <div id='form-widgets-year' class='text-widget textline-field' tal:content='context/year'>
+                            1987
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-author' tal:define='author context/author'>
+                    <label for='form-widgets-author' i18n:translate='label_author' class='horizontal'>
+                        Authors
+                    </label>
+                    <div id='form-widgets-author' tal:condition='python:len(author) == 1'
+                        class='text-widget textline-field'>
+                            Ph.D.
+                    </div>
+                    <ul id='form-widgets-author' tal:condition='python:len(author) &gt; 1'
+                        class='text-widget textline-field'>
+                        <li tal:repeat='auth author' tal:content='auth'>
+                        </li>
+                    </ul>
+                </div>
+              <div class='field' id='formfield-form-widgets-pmid'>
+                    <label for='form-widgets-pmid' i18n:translate='label_pmid' class='horizontal'>
+                        Pubmed ID
+                    </label>
+                    <div id='form-widgets-pmid' class='text-widget textline-field'>
+                        <a href='#' tal:attributes='href python:"https://www.ncbi.nlm.nih.gov/pubmed/?term="+context.pmid' tal:content='context/pmid'>
+                             Pubmed ID 1234
+                       </a>
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-journal'>
+                    <label for='form-widgets-journal' i18n:translate='label_journal' class='horizontal'>
+                        Journal
+                    </label>
+                    <div id='form-widgets-journal' class='text-widget textline-field' tal:content='context/journal'>
+                        Nature
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-pi' tal:define='pi view/pis'>
+                    <label for='form-widgets-pi' i18n:translate='label_pi' class='horizontal'>
+                        PI(s)
+                    </label>
+                    <div id='form-widgets-pi' tal:condition='python:len(pi) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='PI' tal:content='python:pi[0]["Title"]'
+                            tal:attributes='title python:pi[0]["Description"]; href python:pi[0].getURL();'>
+                            Lincoln
+                        </a>
+                    </div>
+                    <ul id='form-widgets-pi' tal:condition='python:len(pi) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='p pi'>
+                            <a href='#' title='PI' tal:content='p/Title'
+                                tal:attributes='title p/Description; href p/getURL'>
+                                PI
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>

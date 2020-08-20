@@ -1,0 +1,70 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Institution View</title>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core'>
+                <div class='field' id='formfield-form-widgets-department'>
+                    <label for='form-widgets-department' i18n:translate='label_department' class='horizontal'>
+                        Department
+                        <!--<span class='formHelp'>The specific department participating with MCL.</span>-->
+                    </label>
+                    <div id='form-widgets-department' class='textline-widget text-field'
+                        tal:content='context/department'>
+                        Department of Redundancy Department
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-abbreviation'>
+                    <label for='form-widgets-abbreviation' i18n:translate='label_abbreviation' class='horizontal'>
+                        Abbreviation
+                        <!--<span class='formHelp'>An abbreviated name or acronym to simplify identifying this institution.</span>-->
+                    </label>
+                    <div id='form-widgets-abbreviation' class='textline-widget text-field'
+                        tal:content='context/abbreviation'>
+                        ZCVJBG
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-homepage'>
+                    <label for='form-widgets-homepage' i18n:translate='label_homepage' class='horizontal'>
+                        Home Page
+                        <!--<span class='formHelp'>URL to the site's home page.</span>-->
+                    </label>
+                    <div id='form-widgets-homepage' class='textline-widget text-field'>
+                        <a href='#' tal:attributes='href context/homepage' tal:content='context/homepage'>
+                            https://non.exist.ent/
+                        </a>
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-members' tal:define='members view/members'>
+                    <label for='form-widgets-members' i18n:translate='label_members' class='horizontal'>
+                        Members
+                        <!--<span class='formHelp'>People at this institution.</span>-->
+                    </label>
+                    <div id='form-widgets-members' tal:condition='python:len(members) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='Cool Lady' tal:content='python:members[0]["Title"]'
+                            tal:attributes='title python:members[0]["Description"]; href python:members[0].getURL();'>
+                            Lucy Liu
+                        </a>
+                    </div>
+                    <ul id='form-widgets-members' tal:condition='python:len(members) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='member members'>
+                            <a href='#' title='Cool Lady' tal:content='member/Title'
+                                tal:attributes='title member/Description; href member/getURL'>
+                                Lucy Liu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>ParticipatingSite Folder View</title>
+        <metal:override fill-slot='top_slot' tal:define='dummy python:request.set("disable_plone.leftcolumn", 1)'/>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core' tal:define='isManager view/isManager'>
+                <p tal:condition='isManager' class='discreet callout'>
+                    <label for='form-widgets-url' class='horizontal' i18n:translate='rdfURL'>
+                        RDF URL:
+                    </label>
+                    <span id='form-widgets-url' class='uri-widget uri-field'>
+                        <a href='#' tal:attributes='href context/url' tal:content='context/url'>
+                            http://somewhere.com/some/rdf/source
+                        </a>
+                    </span>
+                    <label for='form-widgets-ingestEnabled' class='horizontal'>
+                        Ingest Enabled:
+                    </label>
+                    <span id='form-widgets-ingestEnabled' class='uri-widget uri-field'>
+                        <span tal:omit-tag='' tal:condition='context/ingestEnabled' i18n:translate='ingestEnabled'>
+                            &#x2705;
+                        </span>
+                        <span tal:omit-tag='' tal:condition='not:context/ingestEnabled'
+                            i18n:translate='ingestNotEnabled'>
+                            &#x1f6ab; This folder will <em>not</em> be updated
+                        </span>
+                    </span>
+                    <br/>
+                    <span i18n:translate='youAreAManager'>
+                        You are seeing this because you are logged in with management privileges.
+                    </span>
+                </p>
+                <table class='listing' summary='Listing of ParticipatingSites' i18n:attributes='summary'>
+                    <thead>
+                        <tr>
+                            <th i18n:translate='participatingsiteName'>Name</th>
+                            <th i18n:translate='participatingsiteDescription'>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tal:repeat repeat='row view/contents'>
+                            <tr class='odd' tal:define='odd repeat/row/odd; participatingsite row/getObject'
+                                tal:attributes='class python:u"odd" if odd else u"even"'>
+                                <td>
+                                    <a href='#' tal:attributes='href row/getURL' tal:content='row/Title'>
+                                        Some ParticipatingSite
+                                    </a>
+                                </td>
+                                <td tal:content='participatingsite/description'>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </td>
+                            </tr>
+                        </tal:repeat>
+                    </tbody>
+                </table>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>

@@ -1,0 +1,81 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Person View</title>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core'>
+                <div class='field' id='formfield-form-widgets-degrees' tal:define='degrees view/degrees'>
+                    <label for='form-widgets-degrees' i18n:translate='label_degrees' class='horizontal'>
+                        Degrees
+                        <!--<span class='formHelp'>Academic degrees conferred upon this person.</span>-->
+                    </label>
+                    <div id='form-widgets-degrees' tal:condition='python:len(degrees) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='Doctorate of Philosophy' tal:content='python:degrees[0]["Title"]'
+                            tal:attributes='title python:degrees[0]["Description"]; href python:degrees[0].getURL();'>
+                            Ph.D.
+                        </a>
+                    </div>
+                    <ul id='form-widgets-degrees' tal:condition='python:len(degrees) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='degree degrees'>
+                            <a href='#' title='Doctorate of Philosophy' tal:content='degree/Title'
+                                tal:attributes='title degree/Description; href degree/getURL'>
+                                Ph.D.
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class='field' id='formfield-form-widgets-institutions' tal:define='institutions view/institutions'>
+                    <label for='form-widgets-institutions' i18n:translate='label_institutions' class='horizontal'>
+                        Institutions
+                    </label>
+                    <div id='form-widgets-institutions' tal:condition='python:len(institutions) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='Cool Place' tal:content='python:institutions[0].title'
+                            tal:attributes='title python:institutions[0].description; href python:institutions[0].absolute_url;'>
+                            JPL
+                        </a>
+                    </div>
+                    <ul id='form-widgets-institutions' tal:condition='python:len(institutions) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='institution institutions'>
+                            <a href='#' title='Cool Place' tal:content='institution/title'
+                                tal:attributes='title institution/description; href institution/absolute_url'>
+                                CalTech
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class='field' id='formfield-form-widgets-email'>
+                    <label for='form-widgets-email' i18n:translate='label_email' class='horizontal'>
+                        Email
+                        <!--<span class='formHelp'>Electronic mail address via which this person may be contacted.</span>-->
+                    </label>
+                    <div id='form-widgets-email' class='text-widget textline-field'>
+                        <a href='#' tal:attributes='href string:mailto:${context/email}' tal:content='context/email'>
+                            lucy.liu@hollywood.com
+                        </a>
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-phone'>
+                    <label for='form-widgets-phone' i18n:translate='label_phone' class='horizontal'>
+                        Phone
+                        <!--<span class='formHelp'>Public switched telephone network number where this person may be called.</span>-->
+                    </label>
+                    <div id='form-widgets-phone' class='text-widget textline-field'
+                        tal:content='context/phone'>
+                        +1 818 555 1234
+                    </div>
+                </div>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>

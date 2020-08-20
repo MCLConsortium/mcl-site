@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<object name='portal_controlpanel' xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge' purge='False'>
+    <configlet
+        title='MCL Knowledge Settings'
+        action_id='jpl.mcl.site.knowledge.settings'
+        appId='jpl.mcl.site.knowledge'
+        category='Products'
+        condition_expr=''
+        url_expr='string:${portal_url}/@@knowledge-settings'
+        icon_expr='string:${portal_url}/++resource++jpl.mcl.site.knowledge/settings.png'
+        visible='True'
+        i18n:attributes='title'>
+        <permission>Manage portal</permission>
+    </configlet>
+</object>

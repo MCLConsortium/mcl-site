@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:ns1="http://purl.org/dc/terms/"
+   xmlns:ns2="https://cancer.jpl.nasa.gov/rdf/schema.rdf#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+    <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/fundedsiteinput/?id=1">
+    <ns2:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=1"/>
+    <ns2:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=2"/>
+    <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#FundedSite"/>
+    <ns2:staff rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=2"/>
+    <ns2:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1"/>
+    <ns2:institution rdf:resource="https://cancer.jpl.nasa.gov/ksdb/institutioninput/?id=2"/>
+    <ns1:title>IC</ns1:title>
+    <ns1:description>Informatics Center</ns1:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/fundedsiteinput/?id=2">
+    <ns1:description>Data Management and Coordinating Center</ns1:description>
+    <ns2:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1"/>
+    <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#FundedSite"/>
+    <ns2:institution rdf:resource="https://cancer.jpl.nasa.gov/ksdb/institutioninput/?id=1"/>
+    <ns1:title>DMCC</ns1:title>
+  </rdf:Description>
+</rdf:RDF>

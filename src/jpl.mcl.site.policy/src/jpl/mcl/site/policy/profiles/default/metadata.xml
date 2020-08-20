@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<metadata>
+    <version>6</version>
+    <description>Turns a Plone site into an MCL site</description>
+    <dependencies>
+        <dependency>profile-jpl.mcl.site.knowledge:default</dependency>
+        <dependency>profile-jpl.mcl.site.sciencedata:default</dependency>
+    </dependencies>
+</metadata>

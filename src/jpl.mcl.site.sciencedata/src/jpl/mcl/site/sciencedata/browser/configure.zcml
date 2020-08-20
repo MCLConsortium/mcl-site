@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    i18n_domain='jpl.mcl.site.sciencedata'>
+    <browser:page
+        name='sciencedata-settings'
+        for='Products.CMFPlone.interfaces.IPloneSiteRoot'
+        class='.settings.SettingsControlPanel'
+        permission='cmf.ManagePortal'
+    />
+</configure>

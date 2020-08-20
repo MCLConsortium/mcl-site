@@ -1,0 +1,132 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.sciencedata'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Degree Folder View</title>
+        <metal:override fill-slot='top_slot' tal:define='dummy python:request.set("disable_plone.leftcolumn", 1)'/>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core' tal:define='
+                username context/portal_membership/getAuthenticatedMember;
+                isManager view/isManager'>
+                <p tal:condition='isManager' class='discreet callout'>
+                    <label for='form-widgets-url' class='horizontal' i18n:translate='rdfURL'>
+                        Source URL(s):
+                    </label>
+                    <span id='form-widgets-url' class='uri-widget uri-field'>
+                        <a href='#' tal:attributes='href context/labcasurl' tal:content='context/labcasurl'>
+                            http://somewhere.com/some/rdf/source
+                        </a>
+                    </span>
+                    <label for='form-widgets-ingestEnabled' class='horizontal'>
+                        Ingest Enabled:
+                    </label>
+                    <span id='form-widgets-ingestEnabled' class='uri-widget uri-field'>
+                        <span tal:omit-tag='' tal:condition='context/ingestEnabled' i18n:translate='ingestEnabled'>
+                            &#x2705;
+                        </span>
+                        <span tal:omit-tag='' tal:condition='not:context/ingestEnabled'
+                            i18n:translate='ingestNotEnabled'>
+                            &#x1f6ab; This folder will <em>not</em> be updated
+                        </span>
+                    </span>
+                    <br/>
+                    <span i18n:translate='youAreAManager'>
+                        You are seeing this because you are logged in with management privileges.
+                    </span>
+                </p>
+                <p>
+                    The data collections is a comprehensive set of science data. Data related to pathology, including gross pathology, normal histology, and histopathology can be found within pathology data collections. Data related to images, CT, and dicom images can be found within image data collections. The integrated MCL knowledge base system allows the collections to be viewed, archived, and shared among collaborators. The pathology and image data is connected to related clinical data, imaging data, publications, and other useful resources.
+                </p>
+                <p tal:condition='python:username.getUserName() == "Anonymous User"'>
+                    <meta http-equiv="refresh" content="0; url=login" />
+                    <center><font color='red' size=3>You must be logged in to see science data contents.</font></center>
+                </p>
+                <table class='listing' summary='Listing of Degrees' i18n:attributes='summary' 
+                    tal:condition='python:username.getUserName() != "Anonymous User"'>
+                    <thead>
+                        <tr>
+                            <th i18n:translate='scienceFolder_titleHeading'>Collection Name</th>
+                            <th i18n:translate='scienceFolder_descriptionHeading'>Description</th>
+                            <th i18n:translate='scienceFolder_leadpiHeading'>Lead PI</th>
+                            <th i18n:translate='scienceFolder_institutionHeading'>Institution</th>
+                            <th i18n:translate='scienceFolder_organHeading'>Organ</th>
+                            <th i18n:translate='scienceFolder_disciplineHeading'>Discipline</th>
+                            <th i18n:translate='scienceFolder_protocolHeading'>Protocol</th>
+                            <th i18n:translate='scienceFolder_qaHeading'>QA State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tal:repeat repeat='row view/contents'>
+                            <tr class='odd' tal:define="odd repeat/row/odd;
+                                    collection  row/getObject;
+                                    url collection/sourceurl;
+                                    description collection/description;
+                                    title collection/Title;
+                                    leadpi collection/leadpi;
+                                    organ collection/organ;
+                                    discipline collection/discipline;
+                                    protocol collection/protocol;
+                                    qastate collection/qastate;
+                                    institution collection/institution;
+                                    isPublic python:qastate=='Public';
+                                "
+                                tal:attributes='class python:u"odd" if odd else u"even"'>
+                                <td>
+                                    <a href='#' tal:attributes='href url' tal:content='row/Title'>
+                                        Title
+                                    </a>
+                                </td>
+                                <td tal:content='description'>
+                                    Lorem ipsum etc.
+                                </td>
+                                <td>
+                                    <!-- The URLs are hardcoded because plone does not recognize absolute_url or absolute_url_path anymore. Will need to revisit this soon! -->
+                                    <tal:repeat repeat='pi leadpi'>
+                                    <a href='#' tal:content='python:pi.givenName+" "+pi.surname' tal:attributes='href pi/absolute_url'>
+                                        blublablurp pi
+                                    </a>
+                                    </tal:repeat>
+                                </td>
+                                <td>
+                                    <tal:repeat repeat='inst institution'>
+                                    <span tal:content='inst/title'>
+                                        blublablurp institution
+                                    </span>
+                                    </tal:repeat>
+                                </td>
+                                <td>
+                                    <tal:repeat repeat='org organ'>
+                                    <span tal:content='org/title'>
+                                        blublablurp org
+                                    </span>
+                                    </tal:repeat>
+                                </td>
+                                <td tal:content='discipline'>
+                                    disciplines surrounding this collection
+                                </td>
+                                <td>
+                                    <!-- The URLs are hardcoded because plone does not recognize absolute_url or absolute_url_path anymore. Will need to revisit this soon! -->
+                                    <tal:repeat repeat='prot protocol'>
+                                    <a href='#' tal:content='prot/title' tal:attributes='href prot/absolute_url'>
+                                        blublablurp protocol
+                                    </a>
+                                    </tal:repeat>
+                                </td>
+                                <td tal:content='qastate'>
+                                    Out of this world
+                                </td>
+
+                            </tr>
+                        </tal:repeat>
+                    </tbody>
+                </table>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>
