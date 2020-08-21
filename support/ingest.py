@@ -8,7 +8,7 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.WorkflowCore import WorkflowException
 from zope.component import getUtility
-import sys, logging, transaction, plone.api, csv, codecs, os, os.path
+import sys, logging, transaction, plone.api, csv, codecs
 
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)-8s %(message)s')
@@ -78,10 +78,10 @@ def _ingest(portal):
         folder = portal.unrestrictedTraverse(path.encode('utf-8'))
         try:
             ingestor = IIngestor(folder)
+            ingestor.ingest()
+            transaction.commit()
         except TypeError:
             logging.info(u"Can't adapt IIngestor to folder at path %s; skipping", path)
-        ingestor.ingest()
-        transaction.commit()
 
     # Make sure everything is indexed so they appear where they need to be
     logging.info('Clearing and rebuilding the catalog')
