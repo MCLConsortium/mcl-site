@@ -49,9 +49,9 @@ for d in var/filestorage var/log; do
 done
 
 echo "📀 Syncing content blobs"
-rsync -cr --progress $opsHost:$opsDir/blobstorage var
+rsync --no-motd -cr --progress $opsHost:$opsDir/blobstorage var
 echo "📈 Copying Zope database"
-rsync -c --progress $opsHost:$opsDir/filestorage/Data.fs var/filestorage
+rsync --no-motd -c --progress $opsHost:$opsDir/filestorage/Data.fs var/filestorage
 
 # Stop here if you want to test by manually doing upgrades through the
 # prefs_install_products_panel. Note: you'll need to manually ingest as well.
