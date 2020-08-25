@@ -1,0 +1,67 @@
+Changelog
+=========
+
+The following describes the changes between releases.
+
+
+0.0.9 — TBD
+-----------
+
+• CA-1602: MCL Knowledge component needs plone.app.imaging
+
+
+0.0.8 — No Changes But Dan Wanted a Release
+-------------------------------------------
+
+
+0.0.7 — Another Aborted Release
+-------------------------------
+
+Thank you, PyPI, for being so damned anal retentive.
+
+
+0.0.6 — Our Great Institutions
+------------------------------
+
+• CA-1546: Add Personnels Institution Affiliation to MCL Portal
+• CA-1553: Separate interfaces into interface class for better decoupling
+
+
+0.0.5 — Ready for Prime Time
+----------------------------
+
+• CA-1529: Change staff label in participating sites to Additional Investigators and Staff
+
+
+0.0.4 — Skipped version due to Pypi push error
+----------------------------------------------
+
+
+0.0.3 — Skipped version due to Pypi push error
+----------------------------------------------
+
+
+0.0.2 — Blobs! Blobs Everywhere!
+--------------------------------
+
+• CA-1521: MCL Search and Site Map broken
+• CA-1522: Blobstorage error on MCL
+• CA-1520: Ingest URLs incorrect
+
+
+0.0.1 — Knowledge On Fleek!
+---------------------------
+
+• Created types and RDF ingest for institution, protocols, participating sites, and projects
+• Created types and RDF ingest for degrees, organs, and people
+• Create new types documentation
+• CA-1489: Ingest all new items from KSDB
+• CA-1500: RelationChoice and RelationList fields are broken in MCL Knowledge
+• CA-1501: Only text ingest is supported
+• CA-1510: Some content missing from production site in dev
+
+
+0.0.0 — Unreleased
+------------------
+
+• First unreleased release.

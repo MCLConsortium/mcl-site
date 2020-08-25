@@ -5,7 +5,6 @@ bin
 eggs
 develop-eggs
 var
-src
 *.sublime-workspace
 dist
 build
@@ -15,3 +14,11 @@ plone/
 *.log
 site.cfg
 ops.cfg
+MASTER-PACKAGE
+*.py[co]
+*.egg-info
+robot_output.xml
+zexp-exports
+typescript
+_build
+group-export

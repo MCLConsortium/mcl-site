@@ -1,0 +1,75 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Science Data View</title>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core'>
+                <tal:repeat repeat='row view/contents'>
+                    <div tal:define='sciencedata row/getObject'>
+                            <p><strong>Link to source:</strong>
+                            <a href='#' tal:attributes='href sciencedata/sourceurl' tal:content='sciencedata/title'>Location</a>
+                            </p><p>
+                            <strong>Lead PI:</strong>
+                            <tal:repeat repeat='member sciencedata/leadpi'>
+                                <span tal:define="
+                                    firstname   member/givenName;
+                                    lastname    member/surname;
+                                    memurl      member/absolute_url;
+                                ">
+                                <a href='#' tal:attributes='href memurl' tal:content='python:firstname+" "+lastname'>Blow, Joe</a>
+                                </span>
+                            </tal:repeat>
+                            </p><p>
+                            <strong>Discipline: </strong> <span tal:content='sciencedata/discipline'/>
+                            </p><p>
+                            <strong>Species: </strong> 
+                            <span tal:content='sciencedata/species'/>
+                            </p><p>
+                            <strong>Institution(s): </strong>
+                            <tal:repeat repeat='institution sciencedata/institution'>
+                                <span tal:define="
+                                    title       institution/title;
+                                    memurl      institution/absolute_url;
+                                ">
+                                <a href='#' tal:attributes='href memurl' tal:content='title'>
+                                    Stanford U
+                                </a>
+                                </span>
+                            </tal:repeat>
+                            </p><p>
+                            <strong>Organ(s):</strong>
+                            <tal:repeat repeat='organ sciencedata/organ'>
+                                <span tal:define="
+                                    title       organ/title;
+                                    memurl      organ/absolute_url;
+                                ">                                
+                                <a href='#' tal:attributes='href memurl' tal:content='title'>
+                                    Toe
+                                </a>
+                                </span>
+                            </tal:repeat>
+                            </p><p>
+                            <strong>Protocol(s):</strong>
+                            <tal:repeat repeat='protocol sciencedata/protocol'>
+                                <span tal:define="
+                                    title       protocol/title;
+                                    memurl      protocol/absolute_url;
+                                ">                                <a href='#' tal:attributes='href memurl' tal:content='title'>
+                                    Medical Protocol whateves
+                                </a>
+                                </span>
+                            </tal:repeat>
+                            </p>
+                    </div>
+                </tal:repeat>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>

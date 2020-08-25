@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    xmlns:zcml='http://namespaces.zope.org/zcml'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    i18n_domain='jpl.mcl.site.policy'>
+    <include package="z3c.autoinclude" file="meta.zcml" />
+    <includeDependencies package='.' />
+    <genericsetup:registerProfile
+        name='default'
+        title='MCL Policy'
+        directory='profiles/default'
+        description='Turns a Plone site into an MCL site.'
+        provides='Products.GenericSetup.interfaces.EXTENSION'
+    />
+    <include
+        zcml:condition='installed Products.GenericSetup.upgrade'
+        file='upgrades.zcml'
+    />
+</configure>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:ns1="http://xmlns.com/foaf/0.1/" xmlns:ns2="https://cancer.jpl.nasa.gov/rdf/schema.rdf#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1">
+        <ns1:givenname>Beverley</ns1:givenname>
+        <ns1:surname>Liu</ns1:surname>
+        <ns2:degree rdf:resource="https://cancer.jpl.nasa.gov/ksdb/degreeinput/?id=2"/>
+        <ns2:degree rdf:resource="https://cancer.jpl.nasa.gov/ksdb/degreeinput/?id=3"/>
+        <ns1:mbox rdf:resource="mailto:bl@mdanderson.org"/>
+        <ns1:phone>+1 713 555 7856</ns1:phone>
+        <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Person"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=2">
+        <ns1:givenname>幸子</ns1:givenname>
+        <ns1:surname>鈴木</ns1:surname>
+        <ns2:degree rdf:resource="https://cancer.jpl.nasa.gov/ksdb/degreeinput/?id=3"/>
+        <ns1:mbox rdf:resource="mailto:suzuki@mdanderson.org"/>
+        <ns1:phone>+1 303 555 1213</ns1:phone>
+        <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Person"/>
+    </rdf:Description>
+</rdf:RDF>

@@ -1,0 +1,39 @@
+Changelog
+=========
+
+The following describes the changes between releases.
+
+
+1.0.2 — Gotcha! I mean CAPTCHA!
+-------------------------------
+
+• CA-1600: Add a CAPTCHA to the contact-info form
+
+
+1.0.1 — Thought Leader Wants a Release
+--------------------------------------
+
+
+0.0.3 — Direct!
+---------------
+
+• CA-1542: Make MCL portal authenticate via LDAP
+
+
+0.0.2 — For SCIENCE!
+--------------------
+
+• CA-1463: Includes jpl.mcl.site.knowledge as a new dependency
+• CA-1509: Traceback error on Contents button; upgrade to Plone 5.0.7
+
+
+0.0.1 — FCS
+-----------
+
+First released release.
+
+
+0.0.0 — Unreleased
+------------------
+
+First unreleased release.

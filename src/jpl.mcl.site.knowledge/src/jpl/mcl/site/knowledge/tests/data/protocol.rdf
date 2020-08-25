@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+   xmlns:ns1="https://cancer.jpl.nasa.gov/rdf/schema.rdf#"
+   xmlns:ns2="http://purl.org/dc/terms/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+>
+  <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/protocolinput/?id=3">
+    <ns1:humanSubjectTraining>Yes</ns1:humanSubjectTraining>
+    <ns1:sitecontact>Heather Kincaid</ns1:sitecontact>
+    <ns1:irbcontact rdf:resource="mailto:"/>
+    <ns1:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=2"/>
+    <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Protocol"/>
+    <ns1:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=1"/>
+    <ns1:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=2"/>
+    <ns1:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1"/>
+    <ns2:abstract>ksdb abstract</ns2:abstract>
+    <ns1:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2012-01-01T00:00:00</ns1:startDate>
+    <ns2:title>KSDB Protocol</ns2:title>
+    <ns1:irbapprovalnum>1113232323</ns1:irbapprovalnum>
+    <ns1:irbapproval>Yes</ns1:irbapproval>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/protocolinput/?id=1">
+    <ns1:sitecontact>3</ns1:sitecontact>
+    <ns1:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2016-08-01T00:00:00</ns1:startDate>
+    <ns1:irbapprovalnum>hg77677</ns1:irbapprovalnum>
+    <ns1:irbapproval>Yes</ns1:irbapproval>
+    <ns2:abstract>blah blah</ns2:abstract>
+    <ns1:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=1"/>
+    <ns1:organ rdf:resource="https://cancer.jpl.nasa.gov/ksdb/organinput/?id=2"/>
+    <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Protocol"/>
+    <ns1:irbcontact rdf:resource="mailto:4"/>
+    <ns1:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1"/>
+    <ns1:humanSubjectTraining>Unknown</ns1:humanSubjectTraining>
+    <ns2:title>A Methylation Panel for Bladder Cancer</ns2:title>
+    <ns1:pi rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=2"/>
+  </rdf:Description>
+</rdf:RDF>

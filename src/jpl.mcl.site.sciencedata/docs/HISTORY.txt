@@ -1,0 +1,52 @@
+Changelog
+=========
+
+The following describes the changes between releases.
+
+
+
+
+0.0.7 — Another Release?
+------------------------
+
+• CA-1601: Science Data component fails to declare dependency on
+  Knowledge component
+
+
+0.0.5 — TBD
+-----------
+
+• CA-1520 - Ingest URLs incorrect
+• CA-1523 - Create sciencedata view to in case user decides to search
+
+
+0.0.4 — Production ready Science Data
+-------------------------------------
+
+• CA-1509 - Traceback error on Contents button; upgrade to Plone 5.0.7
+• CA-1513 - Science data view is much thinner than members tab
+• CA-1488 - Link MCL to Labcas instead of labcas-dev
+
+
+0.0.3 — ???
+-----------
+
+• No idea what went into this release, but it's out on PyPI already.
+
+
+0.0.2 — LabCAS Text
+-------------------
+
+• Added text to describe labcas collection data
+
+
+0.0.1 — Solr
+------------
+
+• Created types and Solr Json ingest for collection type data
+
+
+0.0.0 — Unreleased
+------------------
+
+• First unreleased release.

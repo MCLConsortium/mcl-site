@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:ns1="http://xmlns.com/foaf/0.1/" xmlns:ns2="http://purl.org/dc/terms/" xmlns:ns3="https://cancer.jpl.nasa.gov/rdf/schema.rdf#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/institutioninput/?id=1">
+        <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Institution"/>
+        <ns2:title>Jet Propulsion Laboratory</ns2:title>
+        <ns2:description>JPL is on the forefront of space exploration.</ns2:description>
+        <ns3:department>Informatics Center</ns3:department>
+        <ns3:abbreviatedName>JPL</ns3:abbreviatedName>
+        <ns1:homepage rdf:resource="http://www.jpl.nasa.gov/"/>
+        <ns1:member rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=1"/>
+        <ns1:member rdf:resource="https://cancer.jpl.nasa.gov/ksdb/personinput/?id=2"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="https://cancer.jpl.nasa.gov/ksdb/institutioninput/?id=2">
+        <rdf:type rdf:resource="https://cancer.jpl.nasa.gov/rdf/types.rdf#Institution"/>
+        <ns2:title>National Cancer Institute</ns2:title>
+        <ns2:description>Killing cancer dead.</ns2:description>
+        <ns3:department>Early Detection Research Network</ns3:department>
+        <ns3:abbreviatedName>NCI</ns3:abbreviatedName>
+        <ns1:homepage rdf:resource="http://cancer.gov/"/>
+    </rdf:Description>
+</rdf:RDF>

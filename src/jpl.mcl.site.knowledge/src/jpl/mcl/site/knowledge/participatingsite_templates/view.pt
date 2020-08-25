@@ -1,0 +1,162 @@
+<html
+    xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    i18n:domain='jpl.mcl.site.knowledge'
+    metal:use-macro='context/main_template/macros/master'>
+    <head>
+        <title>Participating Site</title>
+        <metal:block fill-slot='style_slot' tal:define='navroot context/@@plone_portal_state/navigation_root_url'>
+            <link rel='stylesheet' type='text/css'
+                tal:attributes='href string:${navroot}/++resource++jpl.mcl.site.knowledge/custom-mcl.css'
+            />
+        </metal:block>
+        <metal:person define-macro='person'>
+            <span tal:define='per python:person[0]; institution python:person[1]' tal:omit-tag=''>
+                <a tal:content='per/Title' tal:attributes='title per/Description; href per/getURL'></a>
+                <span tal:condition='python:institution'>- <a tal:content='institution/Title' tal:attributes='title institution/Description; href institution/absolute_url'></a></span>
+            </span>
+        </metal:person>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <metal:content-core define-macro='content-core'>
+                <div class='field' id='formfield-form-widgets-aims'>
+                    <label for='form-widgets-aims' i18n:translate='label_aims' class='horizontal'>
+                        Aims
+                        <!--<span class='formHelp'>The intentions and desired outcomes of this participating site.</span>-->
+                    </label>
+                    <div id='form-widgets-aims' class='richtext-widget text-field'
+                        tal:content='context/aims|nothing'>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-abstract'>
+                    <label for='form-widgets-abstract' i18n:translate='label_abstract' class='horizontal'>
+                        Abstract
+                        <!--<span class='formHelp'>A précis of this participating site.</span>-->
+                    </label>
+                    <div id='form-widgets-abstract' class='text-widget text-field'
+                        tal:content='structure context/abstract|nothing'>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-abbreviation'>
+                    <label for='form-widgets-abbreviation' i18n:translate='label_abbreviation' class='horizontal'>
+                        Abbreviation
+                        <!--<span class='formHelp'>An abbreviated way of referring to this participating site, perhaps with an acronym.</span>-->
+                    </label>
+                    <div id='form-widgets-abbreviation' class='textline-widget text-field'
+                        tal:content='context/abbreviation'>
+                        XYZ
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-organs' tal:define='organs view/organs'>
+                    <label for='form-widgets-organs' i18n:translate='label_organs' class='horizontal'>
+                        Organs
+                        <!--<span class='formHelp'>Body systems studied by this participating site.</span>-->
+                    </label>
+                    <div id='form-widgets-organs' tal:condition='python:len(organs) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='Cool Organ' tal:content='python:organs[0]["Title"]'
+                            tal:attributes='title python:organs[0]["Description"]; href python:organs[0].getURL();'>
+                            Anus
+                        </a>
+                    </div>
+                    <ul id='form-widgets-organs' tal:condition='python:len(organs) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='organ organs'>
+                            <a href='#' title='Cool Organ' tal:content='organ/Title'
+                                tal:attributes='title organ/Description; href organ/getURL'>
+                                Rectum
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class='field' id='formfield-form-widgets-pis' tal:define='pis view/pis'>
+                    <label for='form-widgets-pis' i18n:translate='label_pis' class='horizontal'>
+                        Principal Investigators
+                        <!--<span class='formHelp'>The person of people in charge of this participating site.</span>-->
+                    </label>
+                    <div tal:condition='python:len(pis) &gt; 0'>
+                        <div id='form-widgets-pis' tal:condition='python:len(pis) == 1'
+                            class='relationlist-widget relationlist-field' tal:define='person python:pis[0];'>
+                            <metal:macro use-macro='template/macros/person'/>
+                        </div>
+                        <ul id='form-widgets-pis' tal:condition='python:len(pis) &gt; 1'
+                            class='relationlist-widget relationlist-field'>
+                            <li tal:repeat='person pis'>
+                                <metal:macro use-macro='template/macros/person'/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-staff' tal:define='staff view/staff'>
+                    <label for='form-widgets-staff' i18n:translate='label_staff' class='horizontal'>
+                        Additional Investigators and Staff
+                        <!--<span class='formHelp'>Other personnel at this participating site.</span>-->
+                    </label>
+                    <div tal:condition='python:len(staff) &gt; 0'>
+                        <div id='form-widgets-staff' tal:condition='python:len(staff) == 1'
+                            class='relationlist-widget relationlist-field' tal:define='person python:staff[0];'>
+                            <metal:macro use-macro='template/macros/person'/>
+                        </div>
+                        <ul id='form-widgets-staff' tal:condition='python:len(staff) &gt; 1'
+                            class='relationlist-widget relationlist-field'>
+                            <li tal:repeat='person staff'>
+                                <metal:macro use-macro='template/macros/person'/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='field' id='formfield-form-widgets-institutions' tal:define='institutions view/institutions'>
+                    <label for='form-widgets-institutions' i18n:translate='label_institutions' class='horizontal'>
+                        Institutions
+                        <!--<span class='formHelp'>Institutions represnting this participating site.</span>-->
+                    </label>
+                    <div id='form-widgets-institutions' tal:condition='python:len(institutions) == 1'
+                        class='relationlist-widget relationlist-field'>
+                        <a href='#' title='Cool Place' tal:content='python:institutions[0]["Title"]'
+                            tal:attributes='title python:institutions[0]["Description"]; href python:institutions[0].getURL();'>
+                            JPL
+                        </a>
+                    </div>
+                    <ul id='form-widgets-institutions' tal:condition='python:len(institutions) &gt; 1'
+                        class='relationlist-widget relationlist-field'>
+                        <li tal:repeat='institution institutions'>
+                            <a href='#' title='Cool Place' tal:content='institution/Title'
+                                tal:attributes='title institution/Description; href institution/getURL'>
+                                CalTech
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <hr/>
+                <div class='field' id='formfield-form-widgets-additionalText'>
+                    <label for='form-widgets-additionalText' i18n:translate='label_additionalText' class='horizontal'>
+                    </label>
+                    <div id='form-widgets-additionalText' class='richtext-widget text-field'
+                        tal:content='structure context/@@text-transform/additionalText/text/x-html-safe|nothing'>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                </div>
+            </metal:content-core>
+        </metal:content-core>
+    </body>
+</html>
