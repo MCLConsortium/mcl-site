@@ -39,8 +39,8 @@ ENV \
     PLONE_MD5=246788240851f48bc2f84289a3dc6480
 
 
-# Plone and EDRN Setup
-# --------------------
+# Plone and MCL Setup
+# -------------------
 #
 # OK, now that we have a working Python, let's change it up.
 #
