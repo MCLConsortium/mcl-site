@@ -1,0 +1,136 @@
+# Docker Composition for MCL
+# ==========================
+#
+# Sample Docker Composition to support the MCL site.
+
+
+# Services
+# --------
+#
+# Just three are needed for the MCL site: an app server (Zope), a database
+# (ZEO), and a cache (memcached).
+services:
+    # MCL Plone 5-based Portal
+    # ~~~~~~~~~~~~~~~~~~~~~~~~
+    #
+    # Zope app server running an instance of the Plone portal for MCL
+    mcl-portal:
+        container_name: mcl-portal
+        # image: docker.pkg.github.com/MCLConsortium/mcl-site/mcl-site:${MCL_PORTAL_VERSION:-latest}
+        # image: nutjob4life/mcl-site:${MCL_PORTAL_VERSION:-latest}
+        image: mcl-site:latest
+        volumes:
+            -
+                # Binary large objects or BLOBs; must be same as mcl-db below
+                type: bind
+                source: ${MCL_DATA_DIR}/blobstorage
+                target: /data/blobstorage
+                consistency: consistent
+            -
+                # This contains Zope logs
+                type: bind
+                source: ${MCL_DATA_DIR}/log
+                target: /data/log
+                consistency: delegated
+            # TODO: make the "import" directory available some day
+        ports:
+            -
+                # Map container's Plone's 8080 to 4135 (or MCL_PUBLISHED_PORT)
+                target: 8080
+                published: ${MCL_PUBLISHED_PORT:-4135}
+                protocol: tcp
+                mode: host
+        networks:
+            - backplane
+            - default
+        environment:
+            # Empty settings inherit values from the host's environment
+            MCL_PORTAL_VERSION:
+            MCL_DATA_DIR:
+            MCL_PUBLISHED_PORT:
+            ZEO_ADDRESS: mcl-db:8080
+            ZEO_SHARED_BLOB_DIR: 'on'
+        depends_on:
+            - mcl-db
+            - mcl-memory-cache
+        restart: always
+        stop_grace_period: 23s
+        labels:
+            org.label-schema.name: MCL Public Portal Zope/Plone
+            org.label-schema.description: Zope appserver running a Plone instance serving the CMS for website of the Consortium for Molecular and Cellular Characterization of Screen-Detected Lesions.
+
+
+    # MCL Database (ZEO)
+    # ~~~~~~~~~~~~~~~~~~
+    #
+    # Zope Enterprise Objects (ZEO) database server
+    mcl-db:
+        container_name: mcl-db
+        # image: nutjob4life/mcl-site:${MCL_PORTAL_VERSION-latest}
+        image: mcl-site:latest
+        command: zeo
+        volumes:
+            -
+                # This is the main Zope database; super important!
+                type: bind
+                source: ${MCL_DATA_DIR}/filestorage
+                target: /data/filestorage
+                consistency: consistent
+            -
+                # Binary large objects or BLOBs; must be same as in mcl-portal above
+                type: bind
+                source: ${MCL_DATA_DIR}/blobstorage
+                target: /data/blobstorage
+                consistency: consistent
+            -
+                # This contains ZEO logs
+                type: bind
+                source: ${MCL_DATA_DIR}/log
+                target: /data/log
+                consistency: delegated
+        networks:
+            - backplane
+        environment:
+            # Empty settings inherit values from the host's environment
+            MCL_PORTAL_VERSION:
+        restart: always
+        stop_grace_period: 13s
+        labels:
+            org.label-schema.name: Database
+            org.label-schema.description: Zope Enterprise Objects (ZEO) database server for the website of the Consortium for Molecular and Cellular Characterization of Screen-Detected Lesions.
+
+    # Memory Cache
+    # ~~~~~~~~~~~~
+    #
+    # Mainly (exclusively?) for caching LDAP query results
+    mcl-memory-cache:
+        container_name: mcl-memory-cache
+        image: memcached
+        networks:
+            - backplane
+        restart: always
+        labels:
+            org.label-schema.name: Memory Cache
+            org.label-schema.description: Cache for computed objects using `memcached` to speed up the MCL Public Portal.
+
+
+# Networks
+# --------
+#
+# Thankfully, this is pretty simple.
+networks:
+    backplane:
+        driver: bridge
+        labels:
+            org.label-schema.name: MCL Backplane Network
+            org.label-schema.description: Internal bridge network so the services that comprise the MCL site may communicate.
+    default:
+        driver: bridge
+
+
+# Misc
+# ----
+#
+# Only thing we have here is some Docker Compose metadata.
+version: '3.7'
+

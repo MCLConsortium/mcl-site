@@ -1,49 +1,47 @@
-*************
- MCL Website
-*************
+# 🩺 MCL Portal
 
-This is the software that runs the website for the Consortium for Molecular
-and Cellular Characterization of Screen-Detected Lesions, better known as the
-MCL Consortium, nominally hosted at https://mcl.nci.nih.gov/.
+This is the software that runs the website for the Consortium for Molecular and Cellular Characterization of Screen-Detected Lesions, better known as the MCL Consortium, nominally hosted at https://mcl.nci.nih.gov/.
 
-This software is open source and licensed under the Apache License version 2;
-see the file ``LICENSE.txt``.
+(Insert a badge of build status here.)
 
-This software was developed by and copyrighted 2016 by the California
-Institute of Technology.  ALL RIGHTS RESERVED.  U.S. Government sponsorship
-acknowledged.
+## 🚗 Getting Started
 
+For installation instructions, see [`INSTALL.rst`](INSTALL.rst).
 
-Installation
-============
+Developer notes are in [`notes.rst`](notes.rst).
 
-See the file ``INSTALL.rst``.
+## 📀 Software Environment
+
+This software is primarily written in [Python](hhttps://www.python.org/) using the [Plone](https://plone.org/) content management system.  The source code is mainly under the `src` directory. It's typically built into a [Docker](https://www.docker.com/) image using the [`Dockerfile`](Dockerfile) provided.
 
 
-Questions, Bug Reports, and Help
-================================
+### 👥 Contributing
 
-For feedback about this product, please visit
-http://cancer.jpl.nasa.gov/contact-info.
+You can start by looking at the [open issues](https://github.com/MCLConsortium/mcl-site/issues), forking the project, and submitting a pull request. You can also [contact us by email](mailto:ic-portal@jpl.nasa.gov) with suggestions.
 
 
-Support
-=======
+### 🔢 Versioning
 
-Once the MCL Portal is in operations at NCI, you can get post-operational
-support by emailing ``ncicb@pop.nci.nih.gov``.
+We use the [SemVer](https://semver.org/) philosophy for versioning this software. For versions available, see the [releases made](https://github.com/MCLConsortium/mcl-site/releases) on this project. We're starting off with version 5 because reasons.
 
 
-Developers
-==========
+## 👩‍🎨 Creators
 
-You'll want to do::
+The principal developers are:
 
-    virtualenv python2.7-for-mcl-site
-    cd python2.7-for-mcl-site
-    bin/pip install setuptools==38.5.1
-    cd ..
-    git clone git@github.com:MCLConsortium/mcl-site.git
-    cd mcl-site
-    ../python2.7-for-mcl-site/bin/python2.7 bootstrap.py --setuptools-version=38.5.1 -c dev.cfg
-    bin/buildout -c dev.cfg
+- [Sean Kelly](https://github.com/nutjob4life)
+- [David Liu](https://github.com/yuliujpl)
+
+The QA team consists of:
+
+- [Heather Kincaid](https://github.com/hoodriverheather)
+- [Maureen Colbert](https://github.com/colbertm)
+
+To contact the team as a whole, [email the Informatics Center](mailto:ic-portal@jpl.nasa.gov).
+
+
+## 📃 License
+
+The project is licensed under the [Apache version 2](LICENSE.txt) license.
+
+Note that this package includes software from [Plone Docker](https://github.com/plone/plone.docker) licensed under the [GNU Public License version 2](GNU-LICENSE.txt). The source code for this software is included in the files [Dockerfile](Dockerfile), [docker-entrypoint.sh](docker-entrypoint.sh), [docker-initialize.py](docker-initialize.py), and [buildout.cfg](buildout.cfg).
