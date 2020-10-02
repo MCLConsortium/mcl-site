@@ -36,11 +36,23 @@ ENV \
     PLONE_MAJOR=5.0 \
     PLONE_VERSION=5.0.8 \
     PLONE_VERSION_RELEASE=Plone-5.0.8-UnifiedInstaller-r2 \
-    PLONE_MD5=246788240851f48bc2f84289a3dc6480
+    PLONE_MD5=246788240851f48bc2f84289a3dc6480 \
+    PLONE_REACT=/plone/buildout-cache/eggs/Products.CMFPlone-5.0.8-py2.7.egg/Products/CMFPlone/static/components/react \
+    PLONE_LODASH=/plone/buildout-cache/eggs/Products.CMFPlone-5.0.8-py2.7.egg/Products/CMFPlone/static/components/lodash/dist \
+    PLONE_JQTREE_JQUERY=/plone/buildout-cache/eggs/Products.CMFPlone-5.0.8-py2.7.egg/Products/CMFPlone/static/components/jqtree/static/bower_components/jquery/dist \
+    PLONE_MARKED=/plone/buildout-cache/eggs/Products.CMFPlone-5.0.8-py2.7.egg/Products/CMFPlone/static/components/marked \
+    PLONE_JINJA2=/plone/buildout-cache/eggs/Jinja2-2.8-py2.7.egg \
+    REACT=https://unpkg.com/react@0.14.0/dist/react.js \
+    REACT_MIN=https://unpkg.com/react@0.14.0/dist/react.min.js \
+    REACT_WITH_ADDONS=https://unpkg.com/react@0.14.0/dist/react-with-addons.js \
+    REACT_WITH_ADDONS_MIN=https://unpkg.com/react@0.14.0/dist/react-with-addons.min.js \
+    JQUERY_3_0_0_MIN=https://code.jquery.com/jquery-3.0.0.min.js \
+    MARKED=https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.9/marked.js \
+    MARKED_MIN=https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.9/marked.min.js
 
 
-# Plone and EDRN Setup
-# --------------------
+# Plone and MCL Setup
+# -------------------
 #
 # OK, now that we have a working Python, let's change it up.
 #
@@ -58,7 +70,6 @@ RUN : &&\
     :
 
 
-
 # Milieu Setup
 # ~~~~~~~~~~~~
 #
@@ -73,19 +84,32 @@ RUN : &&\
     apk del --quiet tiff &&\
     : We will uninstall these later &&\
     buildDeps="gcc bzip2-dev musl-dev libjpeg-turbo-dev openjpeg-dev pcre-dev openssl-dev tiff-dev libxml2-dev libxslt-dev zlib-dev openldap-dev cyrus-sasl-dev libffi-dev sudo make" &&\
-    apk add --quiet --virtual plone-build $buildDeps &&\
+    apk add --no-progress --quiet --virtual /plone-build $buildDeps &&\
     : These stay &&\
     runDeps="openjpeg@edge libldap libsasl libjpeg-turbo tiff libxml2 libxslt lynx netcat-openbsd libstdc++@edge libgcc@edge sqlite-libs@edge poppler-utils@edge rsync wv su-exec bash" &&\
-    apk add --quiet $runDeps &&\
+    apk add --no-progress --quiet $runDeps &&\
     : Get, check, and extract Plone &&\
-    wget -q -O Plone.tgz https://launchpad.net/plone/$PLONE_MAJOR/$PLONE_VERSION/+download/Plone-$PLONE_VERSION-UnifiedInstaller.tgz &&\
+    wget --quiet --output-document=Plone.tgz https://launchpad.net/plone/$PLONE_MAJOR/$PLONE_VERSION/+download/Plone-$PLONE_VERSION-UnifiedInstaller.tgz &&\
     echo "$PLONE_MD5  Plone.tgz" | md5sum -c - &&\
     tar -xzf Plone.tgz &&\
     :
 
 RUN : &&\
     /Plone-$PLONE_VERSION-UnifiedInstaller/install.sh --password=admin --daemon-user=mcl --owner=mcl --group=mcl --target=/plone --instance=instance --var=/data none &&\
+    : Twit-lock patches &&\
+    wget --quiet --output-document=$PLONE_REACT/react-with-addons.js $REACT_WITH_ADDONS &&\
+    wget --quiet --output-document=$PLONE_REACT/react-with-addons.min.js $REACT_WITH_ADDONS_MIN &&\
+    wget --quiet --output-document=$PLONE_REACT/react.js $REACT &&\
+    wget --quiet --output-document=$PLONE_REACT/react.min.js $REACT_MIN &&\
+    wget --quiet --output-document=$PLONE_JQTREE_JQUERY/jquery.min.js $JQUERY_3_0_0_MIN &&\
+    find $PLONE_LODASH -type f -delete &&\
+    find $PLONE_MARKED/man $PLONE_MARKED/bin -type f -delete &&\
+    rm $PLONE_MARKED/package.json $PLONE_MARKED/component.json $PLONE_MARKED/.bower.json &&\
+    wget --quiet --output-document=$PLONE_MARKED/lib/marked.js $MARKED &&\
+    wget --quiet --output-document=$PLONE_MARKED/marked.min.js $MARKED_MIN &&\
+    rm -r $PLONE_JINJA2 &&\
     :
+
 
 
 # Our Code
@@ -118,7 +142,10 @@ RUN : &&\
     ln -s /data/blobstorage /plone/instance/var/blobstorage &&\
     chown -R mcl:mcl /plone /data &&\
     rm -rf /Plone* &&\
-    apk del --quiet plone-build &&\
+    :
+
+RUN : &&\
+    apk del --no-progress --quiet /plone-build &&\
     rm -rf /plone/buildout-cache/downloads/* /var/cache/apk/* &&\
     :
 
