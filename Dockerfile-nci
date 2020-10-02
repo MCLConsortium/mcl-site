@@ -144,6 +144,13 @@ RUN : &&\
     rm -rf /Plone* &&\
     :
 
+RUN : Yet more Twit-lock &&\
+    rm \
+        /plone/buildout-cache/eggs/Pillow-6.2.2-py2.7-linux-x86_64.egg/PIL/SgiImagePlugin.pyc \
+        /plone/buildout-cache/eggs/Pillow-6.2.2-py2.7-linux-x86_64.egg/PIL/SgiImagePlugin.py \
+        /plone/buildout-cache/eggs/Pillow-6.2.2-py2.7-linux-x86_64.egg/PIL/SgiImagePlugin.pyo &&\
+    :
+
 RUN : &&\
     apk del --no-progress --quiet /plone-build &&\
     rm -rf /plone/buildout-cache/downloads/* /var/cache/apk/* &&\
