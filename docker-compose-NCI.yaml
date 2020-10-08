@@ -16,7 +16,7 @@ services:
     # Zope app server running an instance of the Plone portal for MCL
     mcl-portal:
         container_name: mcl-portal
-        image: ncidockerhub.nci.nih.gov/mlc/mcl-site:${MCL_PORTAL_VERSION:-latest}
+        image: ncidockerhub.nci.nih.gov/mcl/mcl-site:${MCL_PORTAL_VERSION:-latest}
         # image: docker.pkg.github.com/MCLConsortium/mcl-site/mcl-site:${MCL_PORTAL_VERSION:-latest}
         # image: nutjob4life/mcl-site:${MCL_PORTAL_VERSION:-latest}
         # image: mcl-site:latest
