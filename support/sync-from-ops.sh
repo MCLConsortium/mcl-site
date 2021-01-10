@@ -56,7 +56,7 @@ wget \
     --no-check-certificate \
     --user="$NIH_USERNAME" \
     --password="$NIH_PASSWORD" \
-    "$source/var/filestorage/Data.fs"
+    "$source/filestorage/Data.fs"
 
 
 # Zope Blobs
@@ -83,7 +83,7 @@ wget \
     --recursive \
     --user="$NIH_USERNAME" \
     --password="$NIH_PASSWORD" \
-    "$source/var/blobstorage/"
+    "$source/blobstorage/"
 
 
 echo "😌 All done" 1>&2
