@@ -68,7 +68,7 @@ wget \
 
 echo "📀 Retrieving blobs" 1>&2
 [ -d "$blobstorage" ] || mkdir -p "$blobstorage"
-cd "$blobstorage"/..
+cd "$blobstorage"
 wget \
     --quiet \
     --execute robots=off \
