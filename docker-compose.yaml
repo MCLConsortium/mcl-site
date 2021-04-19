@@ -105,7 +105,7 @@ services:
     # Mainly (exclusively?) for caching LDAP query results
     mcl-memory-cache:
         container_name: mcl-memory-cache
-        image: memcached
+        image: memcached:1.6.9-alpine
         networks:
             - backplane
         restart: always
