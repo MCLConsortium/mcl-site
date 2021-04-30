@@ -51,6 +51,8 @@ services:
             MCL_PUBLISHED_PORT:
             ZEO_ADDRESS: mcl-db:8080
             ZEO_SHARED_BLOB_DIR: 'on'
+            # https://github.com/plone/plone.docker/issues/160
+            ZEO_PACK_KEEP_OLD: 'false'
         depends_on:
             - mcl-db
             - mcl-memory-cache
@@ -96,6 +98,8 @@ services:
         environment:
             # Empty settings inherit values from the host's environment
             MCL_PORTAL_VERSION:
+            # https://github.com/plone/plone.docker/issues/160
+            ZEO_PACK_KEEP_OLD: 'false'
         restart: on-failure
         stop_grace_period: 13s
         labels:
